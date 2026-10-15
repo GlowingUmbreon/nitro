@@ -1,14 +1,15 @@
 #include "nitro/gx.h"
 #include "nitro/mi.h"
 #include "nitro/os.h"
+#include "nitro/os/os_irq.h"
 
 static void GX_InitGXState(void);
 
-u16 data_020a7088 = 1;
-u32 data_020a708c = 3;
-u16 data_0216a0dc = 0;
-u16 data_0216a0de = 0;
-GX_UnkStruct2 data_0216a0e0;
+u16 GX_data_0004  = 1;
+u32 GX_defaultDma = 3;
+u16 GX_data_0002  = 0;
+u16 GX_data_0001  = 0;
+GX_UnkStruct2 GX_data_0005;
 
 void GX_Init(void) {
     REG_POWER_CNT |= 0x8000;
@@ -17,25 +18,25 @@ void GX_Init(void) {
 
     GX_InitGXState();
 
-    while (data_0216a0de == 0) {
+    while (GX_data_0001 == 0) {
         s32 lock = OS_GetLockID();
         if (lock == OS_LOCK_ID_ERROR) {
             OS_Panic();
         }
-        data_0216a0de = lock;
+        GX_data_0001 = lock;
     }
 
     REG_DISPSTAT = 0;
     REG_DISPCNT  = 0;
 
-    if (data_020a708c != -1) {
-        MI_DmaFill32(data_020a708c, &REG_BG0CNT, 0, 0x60);
+    if (GX_defaultDma != -1) {
+        MI_DmaFill32(GX_defaultDma, &REG_BG0CNT, 0, 0x60);
         REG_MASTER_BRIGHT = 0;
-        MI_DmaFill32(data_020a708c, &REG_DISPCNT_SUB, 0, 0x70);
+        MI_DmaFill32(GX_defaultDma, &REG_DISPCNT_SUB, 0, 0x70);
     } else {
-        MI_CpuFill32(0, &REG_BG0CNT, 0x60);
+        MIi_CpuClear32(0, &REG_BG0CNT, 0x60);
         REG_MASTER_BRIGHT = 0;
-        MI_CpuFill32(0, &REG_DISPCNT_SUB, 0x70);
+        MIi_CpuClear32(0, &REG_DISPCNT_SUB, 0x70);
     }
 
     REG_BG2PA     = 0x100;
@@ -59,43 +60,42 @@ u16 GX_HBlankIntr(BOOL param1) {
     }
 }
 
-u16 GX_VBlankIntr(BOOL param1) {
-    u16 prevStat = REG_DISPSTAT & 0x8;
+u32 GX_VBlankIntr(BOOL param1) {
+    u32 prevStat = REG_DISPSTAT & 0x8;
     if (param1) {
         REG_DISPSTAT |= 0x8;
-        return prevStat;
     } else {
         REG_DISPSTAT &= ~0x8;
-        return prevStat;
     }
+    return prevStat;
 }
 
 void GX_DispOff(void) {
-    u32 cnt       = REG_DISPCNT;
-    data_020a7088 = 0;
-    data_0216a0dc = (cnt & 0x30000) >> 16;
-    REG_DISPCNT   = cnt & ~0x30000;
+    u32 cnt      = REG_DISPCNT;
+    GX_data_0004 = 0;
+    GX_data_0002 = (cnt & 0x30000) >> 16;
+    REG_DISPCNT  = cnt & ~0x30000;
 }
 
 void GX_DispOn(void) {
-    data_020a7088 = 1;
-    if (data_0216a0dc != 0) {
-        REG_DISPCNT = (REG_DISPCNT & ~0x30000) | data_0216a0dc << 16;
+    GX_data_0004 = 1;
+    if (GX_data_0002 != 0) {
+        REG_DISPCNT = (REG_DISPCNT & ~0x30000) | GX_data_0002 << 16;
         return;
     }
     REG_DISPCNT |= 0x10000;
 }
 
 void GX_SetGraphicsMode(u32 param1, u32 param2, u32 param3) {
-    u32 cnt       = REG_DISPCNT;
-    data_0216a0dc = param1;
-    if (data_020a7088 == 0) {
+    u32 cnt      = REG_DISPCNT;
+    GX_data_0002 = param1;
+    if (GX_data_0004 == 0) {
         param1 = 0;
     }
     cnt         = (cnt & ~0xf000f) | (param1 << 16);
     REG_DISPCNT = param2 | cnt | (param3 << 3);
-    if (data_0216a0dc == 0) {
-        data_020a7088 = 0;
+    if (GX_data_0002 == 0) {
+        GX_data_0004 = 0;
     }
 }
 
@@ -103,23 +103,48 @@ void GXS_SetGraphicsMode(u32 mode) {
     REG_DISPCNT_SUB = (REG_DISPCNT_SUB & ~0x7) | mode;
 }
 
+void GXx_SetMasterBrightness_(s16 *bright, s32 value) {
+    if (value == 0) {
+        *bright = 0;
+    } else if (value > 0) {
+        *bright = 0x4000 | value;
+    } else {
+        *bright = 0x8000 | -value;
+    }
+}
+
+u32 GX_SetDefaultDMA(u32 dma) {
+    u32 currDma;
+    OSIntrMode irq;
+
+    currDma = GX_defaultDma;
+    if (currDma != -1) {
+        MI_WaitDma(currDma);
+    }
+
+    irq           = OS_DisableInterrupts();
+    GX_defaultDma = dma;
+    OS_RestoreInterrupts(irq);
+    return currDma;
+}
+
 static void GX_InitGXState(void) {
-    data_0216a0e0.unk_00 = 0;
-    data_0216a0e0.unk_02 = 0;
-    data_0216a0e0.unk_04 = 0;
-    data_0216a0e0.unk_06 = 0;
-    data_0216a0e0.unk_08 = 0;
-    data_0216a0e0.unk_0a = 0;
-    data_0216a0e0.unk_0c = 0;
-    data_0216a0e0.unk_0e = 0;
-    data_0216a0e0.unk_10 = 0;
-    data_0216a0e0.unk_12 = 0;
-    data_0216a0e0.unk_14 = 0;
-    data_0216a0e0.unk_16 = 0;
-    data_0216a0e0.unk_18 = 0;
-    REG_VRAM_CNT_ABCD    = 0;
-    REG_VRAM_CNT_E       = 0;
-    REG_VRAM_CNT_F       = 0;
-    REG_VRAM_CNT_G       = 0;
-    REG_VRAM_CNT_HI      = 0;
+    GX_data_0005.unk_00 = 0;
+    GX_data_0005.unk_02 = 0;
+    GX_data_0005.unk_04 = 0;
+    GX_data_0005.unk_06 = 0;
+    GX_data_0005.unk_08 = 0;
+    GX_data_0005.unk_0a = 0;
+    GX_data_0005.unk_0c = 0;
+    GX_data_0005.unk_0e = 0;
+    GX_data_0005.unk_10 = 0;
+    GX_data_0005.unk_12 = 0;
+    GX_data_0005.unk_14 = 0;
+    GX_data_0005.unk_16 = 0;
+    GX_data_0005.unk_18 = 0;
+    REG_VRAM_CNT_ABCD   = 0;
+    REG_VRAM_CNT_E      = 0;
+    REG_VRAM_CNT_F      = 0;
+    REG_VRAM_CNT_G      = 0;
+    REG_VRAM_CNT_HI     = 0;
 }

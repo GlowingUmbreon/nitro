@@ -21,7 +21,7 @@ inline u32 MI_DmaBusyFlag(u32 dmaChannel) {
     return *(vu32 *) &(&REG_DMA0SAD)[dmaChannel * 3 + 2] & 0x80000000;
 }
 
-inline void MI_WaitDma(u32 dmaChannel) {
+inline void _MI_WaitDma(u32 dmaChannel) {
     while (MI_DmaBusyFlag(dmaChannel)) {
     }
 }
@@ -35,13 +35,13 @@ void MI_func_0013(s32 dmaChannel, u32 param2, void *param3, BOOL param4, BOOL pa
         return;
     }
 
-    MI_WaitDma(dmaChannel);
+    _MI_WaitDma(dmaChannel);
     if (param5) {
         MI_func_0010(dmaChannel, param3, param2, param4 >> 2 | 0x85000000, 0x12);
     } else {
         MI_func_0010(dmaChannel, param3, param2, param4 >> 2 | 0x5000000, 0x16);
     }
-    MI_WaitDma(dmaChannel);
+    _MI_WaitDma(dmaChannel);
 }
 
 void MI_func_0014(s32 dmaChannel, void *param2, u32 param3, BOOL param4, BOOL param5) {
@@ -50,13 +50,13 @@ void MI_func_0014(s32 dmaChannel, void *param2, u32 param3, BOOL param4, BOOL pa
     }
 
     MI_func_0006(dmaChannel, param2, param4, 0);
-    MI_WaitDma(dmaChannel);
+    _MI_WaitDma(dmaChannel);
     if (param5) {
         MI_func_0010(dmaChannel, param2, param3, param4 >> 2 | 0x84000000, 0x2);
     } else {
         MI_func_0010(dmaChannel, param2, param3, param4 >> 2 | 0x4000000, 0x6);
     }
-    MI_WaitDma(dmaChannel);
+    _MI_WaitDma(dmaChannel);
 }
 
 void MI_func_0015(s32 dmaChannel, void *param2, u32 param3, BOOL param4, BOOL param5) {
@@ -65,13 +65,13 @@ void MI_func_0015(s32 dmaChannel, void *param2, u32 param3, BOOL param4, BOOL pa
     }
 
     MI_func_0006(dmaChannel, param2, param4, 0);
-    MI_WaitDma(dmaChannel);
+    _MI_WaitDma(dmaChannel);
     if (param5) {
         MI_func_0010(dmaChannel, param2, param3, param4 >> 1 | 0x80000000, 0x2);
     } else {
         MI_func_0010(dmaChannel, param2, param3, param4 >> 1, 0x6);
     }
-    MI_WaitDma(dmaChannel);
+    _MI_WaitDma(dmaChannel);
 }
 
 void MI_func_0016(s32 dmaChannel, u32 param2, void *param3, BOOL param4, void (*param5)(u32), u32 param6, BOOL param7) {
@@ -245,7 +245,7 @@ void MI_CpuCopy16(const void *inSrc, void *inDst, u32 size) {
 #endif
 }
 
-void MI_CpuFill32(u32 value, void *inBuf, u32 size) {
+void MIi_CpuClear32(u32 value, void *inBuf, u32 size) {
     u32 *buf = inBuf;
 #ifdef NITRO_NO_ASM
     while (buf < inBuf + size) {
@@ -292,7 +292,7 @@ void MI_CpuCopy32(const void *inSrc, void *inDst, u32 size) {
 }
 
 #ifdef NITRO_NO_ASM
-void _MI_CpuFill(u32 value, void *inBuf, u32 size) {
+void MIi_CpuClearFast(u32 value, void *inBuf, u32 size) {
     u32 *buf        = inBuf;
     u32 alignedSize = size / 32 * 32;
     while (buf < inBuf + alignedSize) {
@@ -311,7 +311,7 @@ void _MI_CpuFill(u32 value, void *inBuf, u32 size) {
 }
 #else
 THUMB_DISABLE();
-ASM void _MI_CpuFill(u32 value, void *inBuf, u32 size){
+ASM void MIi_CpuClearFast(u32 value, void *inBuf, u32 size){
     #if __MWERKS__ // clang-format off
     stmdb sp!, {r4-r9}
     add r9, r1, r2

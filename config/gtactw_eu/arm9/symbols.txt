@@ -14142,8 +14142,8 @@ data_02170b40 kind:data(any) addr:0x02170b40
 data_02170b80 kind:data(any) addr:0x02170b80
 data_02170c80 kind:data(any) addr:0x02170c80
 data_02170c81 kind:data(any) addr:0x02170c81
-data_02170cc0 kind:data(any) addr:0x02170cc0
-data_02170cc4 kind:data(any) addr:0x02170cc4
+GX_data_0004 kind:data(any) addr:0x02170cc0
+GX_defaultDma kind:data(any) addr:0x02170cc4
 data_02170cc8 kind:data(any) addr:0x02170cc8
 data_02170cd8 kind:data(any) addr:0x02170cd8
 data_02170cdc kind:data(any) addr:0x02170cdc
@@ -15274,8 +15274,8 @@ data_021f87dc kind:bss addr:0x021f87dc
 data_021f8e48 kind:bss addr:0x021f8e48
 data_021f8e60 kind:bss addr:0x021f8e60
 data_021f8e6c kind:bss addr:0x021f8e6c
-data_021f943c kind:bss addr:0x021f943c
-data_021f943e kind:bss addr:0x021f943e
+GX_data_0002 kind:bss addr:0x021f943c
+GX_data_0001 kind:bss addr:0x021f943e
 data_021f9440 kind:bss addr:0x021f9440
 data_021f9442 kind:bss addr:0x021f9442
 data_021f9444 kind:bss addr:0x021f9444

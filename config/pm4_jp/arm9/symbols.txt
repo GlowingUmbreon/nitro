@@ -2309,9 +2309,9 @@ MI_func_0004 kind:function(arm,size=0x7c) addr:0x0206d99c
 MI_func_0005 kind:function(arm,size=0x84) addr:0x0206da18
 MI_func_0006 kind:function(arm,size=0x54) addr:0x0206da9c
 MI_CpuCopy16 kind:function(arm,size=0x34) addr:0x0206daf0
-MI_CpuFill32 kind:function(arm,size=0x1c) addr:0x0206db24
+MIi_CpuClear32 kind:function(arm,size=0x1c) addr:0x0206db24
 MI_CpuCopy32 kind:function(arm,size=0x28) addr:0x0206db40
-_MI_CpuFill kind:function(arm,size=0x5c) addr:0x0206db68
+MIi_CpuClearFast kind:function(arm,size=0x5c) addr:0x0206db68
 MI_func_0007 kind:function(arm,size=0x58) addr:0x0206dbc4
 MI_CpuFill8 kind:function(arm,size=0xbc) addr:0x0206dc1c
 MI_CpuCopy8 kind:function(arm,size=0x180) addr:0x0206dcd8
@@ -3535,8 +3535,8 @@ data_020a7034 kind:data(any) addr:0x020a7034
 data_020a7054 kind:data(any) addr:0x020a7054
 data_020a7070 kind:data(any) addr:0x020a7070
 data_020a7080 kind:data(any) addr:0x020a7080
-data_020a7088 kind:data(any) addr:0x020a7088
-data_020a708c kind:data(any) addr:0x020a708c
+GX_data_0004 kind:data(any) addr:0x020a7088
+GX_defaultDma kind:data(any) addr:0x020a708c
 data_020a7090 kind:data(any) addr:0x020a7090
 data_020a70a0 kind:data(any) addr:0x020a70a0
 data_020a70a4 kind:data(any) addr:0x020a70a4
@@ -4033,9 +4033,9 @@ data_0216947c kind:bss addr:0x0216947c
 data_02169ae8 kind:bss addr:0x02169ae8
 data_02169b00 kind:bss addr:0x02169b00
 data_02169b0c kind:bss addr:0x02169b0c
-data_0216a0dc kind:bss addr:0x0216a0dc
-data_0216a0de kind:bss addr:0x0216a0de
-data_0216a0e0 kind:bss addr:0x0216a0e0
+GX_data_0002 kind:bss addr:0x0216a0dc
+GX_data_0001 kind:bss addr:0x0216a0de
+GX_data_0005 kind:bss addr:0x0216a0e0
 data_0216a0ee kind:bss addr:0x0216a0ee
 data_0216a0f0 kind:bss addr:0x0216a0f0
 data_0216a0f6 kind:bss addr:0x0216a0f6

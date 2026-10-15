@@ -251,7 +251,7 @@ void OS_CreateThread(OSThread *thread, void (*threadFunc)(void *arg), void *arg,
     OS_InitContext(thread, threadFunc, stackHi - 8);
     thread->context.regs[0]  = (u32) arg; // set first argument to threadFunc
     thread->context.regs[14] = (u32) OS_ExitThread; // set return address
-    MI_CpuFill32(0, stackHi - stackSize + 4, stackSize - 12);
+    MIi_CpuClear32(0, stackHi - stackSize + 4, stackSize - 12);
     thread->unk_84      = 0;
     thread->unk_88.head = NULL;
     thread->unk_88.tail = NULL;
@@ -259,7 +259,7 @@ void OS_CreateThread(OSThread *thread, void (*threadFunc)(void *arg), void *arg,
     thread->unk_78 = 0;
     thread->next   = 0;
     thread->prev   = 0;
-    MI_CpuFill32(0, &thread->unk_a4, 0xc);
+    MIi_CpuClear32(0, &thread->unk_a4, 0xc);
     thread->alarm = 0;
     OS_RestoreInterrupts(uVar1);
 }

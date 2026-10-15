@@ -48,8 +48,8 @@ static void GX_VRAMCNT_SetLCDC_(u32 cnt) {
 }
 
 void GX_SetBankForBG(s32 param1) {
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_02);
-    data_0216a0e0.unk_02 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_02);
+    GX_data_0005.unk_02 = param1;
     switch (param1) {
         case 0x0:
             break;
@@ -116,12 +116,12 @@ void GX_SetBankForBG(s32 param1) {
             REG_VRAM_CNT_G = 0x81;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
 }
 
 void GX_SetBankForOBJ(s32 param1) {
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_04);
-    data_0216a0e0.unk_04 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_04);
+    GX_data_0005.unk_04 = param1;
     switch (param1) {
         case 0x0:
             break;
@@ -153,12 +153,12 @@ void GX_SetBankForOBJ(s32 param1) {
             REG_VRAM_CNT_G = 0x82;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
 }
 
 static void GX_func_0003(s32 param1) {
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_0e);
-    data_0216a0e0.unk_0e = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_0e);
+    GX_data_0005.unk_0e = param1;
     switch (param1) {
         case 0x10:
             REG_DISPCNT |= 0x40000000;
@@ -178,15 +178,15 @@ static void GX_func_0003(s32 param1) {
             REG_DISPCNT &= ~0x40000000;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
 }
 
 BOOL GX_TrySetBankForBGExtPltt(s32 param1) {
-    if (!OS_func_0206d5ac(param1, data_0216a0de)) {
+    if (!OS_func_0206d5ac(param1, GX_data_0001)) {
         return false;
     }
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_0e);
-    data_0216a0e0.unk_0e = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_0e);
+    GX_data_0005.unk_0e = param1;
     switch (param1) {
         case 0x10:
             REG_DISPCNT |= 0x40000000;
@@ -206,13 +206,13 @@ BOOL GX_TrySetBankForBGExtPltt(s32 param1) {
             REG_DISPCNT &= ~0x40000000;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
     return true;
 }
 
 static void GX_func_0004(s32 param1) {
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_10);
-    data_0216a0e0.unk_10 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_10);
+    GX_data_0005.unk_10 = param1;
     switch (param1) {
         case 0x20:
             REG_DISPCNT |= 0x80000000;
@@ -226,15 +226,15 @@ static void GX_func_0004(s32 param1) {
             REG_DISPCNT &= ~0x80000000;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
 }
 
 BOOL GX_TrySetBankForOBJExtPltt(s32 param1) {
-    if (!OS_func_0206d5ac(param1, data_0216a0de)) {
+    if (!OS_func_0206d5ac(param1, GX_data_0001)) {
         return false;
     }
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_10);
-    data_0216a0e0.unk_10 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_10);
+    GX_data_0005.unk_10 = param1;
     switch (param1) {
         case 0x20:
             REG_DISPCNT |= 0x80000000;
@@ -248,18 +248,18 @@ BOOL GX_TrySetBankForOBJExtPltt(s32 param1) {
             REG_DISPCNT &= ~0x80000000;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
     return true;
 }
 
 void GX_SetBankForLCDC(s32 param1) {
-    data_0216a0e0.unk_00 |= param1;
+    GX_data_0005.unk_00 |= param1;
     GX_VRAMCNT_SetLCDC_(param1);
 }
 
 void GX_SetBankForSubBG(s32 param1) {
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_12);
-    data_0216a0e0.unk_12 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_12);
+    GX_data_0005.unk_12 = param1;
     switch (param1) {
         case 0x1:
             break;
@@ -272,12 +272,12 @@ void GX_SetBankForSubBG(s32 param1) {
             REG_VRAM_CNT_H = 0x81;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
 }
 
 void GX_SetBankForSubOBJ(s32 param1) {
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_14);
-    data_0216a0e0.unk_14 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_14);
+    GX_data_0005.unk_14 = param1;
     switch (param1) {
         case 0x0:
             break;
@@ -288,12 +288,12 @@ void GX_SetBankForSubOBJ(s32 param1) {
             REG_VRAM_CNT_I = 0x82;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
 }
 
 static void GX_func_0005(s32 param1) {
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_16);
-    data_0216a0e0.unk_16 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_16);
+    GX_data_0005.unk_16 = param1;
     switch (param1) {
         case 0x80:
             REG_DISPCNT_SUB |= 0x40000000;
@@ -303,15 +303,15 @@ static void GX_func_0005(s32 param1) {
             REG_DISPCNT_SUB &= ~0x40000000;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
 }
 
 BOOL GX_TrySetBankForSubBGExtPltt(s32 param1) {
-    if (!OS_func_0206d5ac(param1, data_0216a0de)) {
+    if (!OS_func_0206d5ac(param1, GX_data_0001)) {
         return false;
     }
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_16);
-    data_0216a0e0.unk_16 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_16);
+    GX_data_0005.unk_16 = param1;
     switch (param1) {
         case 0x80:
             REG_DISPCNT_SUB |= 0x40000000;
@@ -321,13 +321,13 @@ BOOL GX_TrySetBankForSubBGExtPltt(s32 param1) {
             REG_DISPCNT_SUB &= ~0x40000000;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
     return true;
 }
 
 static void GXS_func_0001(s32 param1) {
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_18);
-    data_0216a0e0.unk_18 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_18);
+    GX_data_0005.unk_18 = param1;
     switch (param1) {
         case 0x100:
             REG_DISPCNT_SUB |= 0x80000000;
@@ -337,15 +337,15 @@ static void GXS_func_0001(s32 param1) {
             REG_DISPCNT_SUB &= ~0x80000000;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
 }
 
 BOOL GX_TrySetBankForSubOBJExtPltt(s32 param1) {
-    if (!OS_func_0206d5ac(param1 & 0xffff, data_0216a0de)) {
+    if (!OS_func_0206d5ac(param1 & 0xffff, GX_data_0001)) {
         return false;
     }
-    data_0216a0e0.unk_00 = ~param1 & (data_0216a0e0.unk_00 | data_0216a0e0.unk_18);
-    data_0216a0e0.unk_18 = param1;
+    GX_data_0005.unk_00 = ~param1 & (GX_data_0005.unk_00 | GX_data_0005.unk_18);
+    GX_data_0005.unk_18 = param1;
     switch (param1) {
         case 0x100:
             REG_DISPCNT_SUB |= 0x80000000;
@@ -355,36 +355,36 @@ BOOL GX_TrySetBankForSubOBJExtPltt(s32 param1) {
             REG_DISPCNT_SUB &= ~0x80000000;
             break;
     }
-    GX_VRAMCNT_SetLCDC_(data_0216a0e0.unk_00);
+    GX_VRAMCNT_SetLCDC_(GX_data_0005.unk_00);
     return true;
 }
 
 static u16 GX_func_0006(u16 *param1) {
     u16 uVar1 = *param1;
     *param1   = 0;
-    data_0216a0e0.unk_00 |= uVar1;
+    GX_data_0005.unk_00 |= uVar1;
     GX_VRAMCNT_SetLCDC_(uVar1);
     return uVar1;
 }
 
 u16 GX_ResetBankForBGExtPltt(void) {
     REG_DISPCNT &= ~0x40000000;
-    return GX_func_0006(&data_0216a0e0.unk_0e);
+    return GX_func_0006(&GX_data_0005.unk_0e);
 }
 
 u16 GX_ResetBankForOBJExtPltt(void) {
     REG_DISPCNT &= ~0x80000000;
-    return GX_func_0006(&data_0216a0e0.unk_10);
+    return GX_func_0006(&GX_data_0005.unk_10);
 }
 
 u16 GX_ResetBankForSubBGExtPltt(void) {
     REG_DISPCNT_SUB &= ~0x40000000;
-    return GX_func_0006(&data_0216a0e0.unk_16);
+    return GX_func_0006(&GX_data_0005.unk_16);
 }
 
 u16 GX_ResetBankForSubOBJExtPltt(void) {
     REG_DISPCNT_SUB &= ~0x80000000;
-    return GX_func_0006(&data_0216a0e0.unk_18);
+    return GX_func_0006(&GX_data_0005.unk_18);
 }
 
 static u32 GX_func_0007(u16 *param1) {
@@ -417,12 +417,12 @@ static u32 GX_func_0007(u16 *param1) {
     if ((uVar1 & 0x100) != 0) {
         REG_VRAM_CNT_I = 0;
     }
-    OS_func_0206d66c(uVar1, data_0216a0de);
+    OS_func_0206d66c(uVar1, GX_data_0001);
     return uVar1;
 }
 
 void GX_DisableBankForLCDC(void) {
-    GX_func_0007(&data_0216a0e0.unk_00);
+    GX_func_0007(&GX_data_0005.unk_00);
 }
 
 static void *G2_func_0001(void) {
@@ -615,16 +615,16 @@ void _G2_SetBlend(u32 *reg, u32 srcPlane, u32 dstPlane, u32 srcAlpha, u32 dstAlp
 }
 
 inline void GX_LoadVram16(void *src, void *dst, u32 size) {
-    if (data_020a708c != -1 && size > 28) {
-        MI_DmaCopy16(data_020a708c, src, dst, size);
+    if (GX_defaultDma != -1 && size > 28) {
+        MI_DmaCopy16(GX_defaultDma, src, dst, size);
     } else {
         MI_CpuCopy16(src, dst, size);
     }
 }
 
 inline void GX_LoadVram32(void *src, void *dst, u32 size) {
-    if (data_020a708c != -1 && size > 48) {
-        MI_DmaCopy32(data_020a708c, src, dst, size);
+    if (GX_defaultDma != -1 && size > 48) {
+        MI_DmaCopy32(GX_defaultDma, src, dst, size);
     } else {
         MI_CpuCopy32(src, dst, size);
     }
@@ -749,16 +749,16 @@ void GX_BeginLoadBGExtPltt(void) {
 
 void GX_LoadBGExtPltt(void *ptr, u32 offset, u32 size) {
     void *vram = (data_0216a0fc.unk_10 + offset) - data_0216a0fc.unk_0c;
-    if (data_020a708c != -1) {
-        MI_func_0206d87c(data_020a708c, ptr, vram, size, 0, 0);
+    if (GX_defaultDma != -1) {
+        MI_func_0206d87c(GX_defaultDma, ptr, vram, size, 0, 0);
     } else {
         MI_CpuCopy32(ptr, vram, size);
     }
 }
 
 void GX_EndLoadBGExtPltt(void) {
-    if (data_020a708c != -1) {
-        MI_func_0206d934(data_020a708c);
+    if (GX_defaultDma != -1) {
+        MI_func_0206d934(GX_defaultDma);
     }
     GX_func_0003(data_0216a0fc.unk_14);
     data_0216a0fc.unk_14 = 0;
@@ -782,16 +782,16 @@ void GX_BeginLoadOBJExtPltt(void) {
 
 void GX_LoadOBJExtPltt(void *ptr, u32 offset, u32 size) {
     void *vram = data_0216a0fc.unk_04 + offset;
-    if (data_020a708c != -1) {
-        MI_func_0206d87c(data_020a708c, ptr, vram, size, 0, 0);
+    if (GX_defaultDma != -1) {
+        MI_func_0206d87c(GX_defaultDma, ptr, vram, size, 0, 0);
     } else {
         MI_CpuCopy32(ptr, vram, size);
     }
 }
 
 void GX_EndLoadOBJExtPltt(void) {
-    if (data_020a708c != -1) {
-        MI_func_0206d934(data_020a708c);
+    if (GX_defaultDma != -1) {
+        MI_func_0206d934(GX_defaultDma);
     }
     GX_func_0004(data_0216a0fc.unk_08);
     data_0216a0fc.unk_08 = 0;
@@ -803,16 +803,16 @@ void GXS_BeginLoadBGExtPltt(void) {
 }
 
 void GXS_LoadBGExtPltt(void *ptr, u32 offset, u32 size) {
-    if (data_020a708c != -1) {
-        MI_func_0206d87c(data_020a708c, ptr, ((void *) 0x06898000) + offset, size, 0, 0);
+    if (GX_defaultDma != -1) {
+        MI_func_0206d87c(GX_defaultDma, ptr, ((void *) 0x06898000) + offset, size, 0, 0);
     } else {
         MI_CpuCopy32(ptr, ((void *) 0x06898000) + offset, size);
     }
 }
 
 void GXS_EndLoadBGExtPltt(void) {
-    if (data_020a708c != -1) {
-        MI_func_0206d934(data_020a708c);
+    if (GX_defaultDma != -1) {
+        MI_func_0206d934(GX_defaultDma);
     }
     GX_func_0005(data_0216a0fc.unk_00);
     data_0216a0fc.unk_00 = 0;
@@ -823,16 +823,16 @@ void GXS_BeginLoadOBJExtPltt(void) {
 }
 
 void GXS_LoadOBJExtPltt(void *ptr, u32 offset, u32 size) {
-    if (data_020a708c != -1) {
-        MI_func_0206d87c(data_020a708c, ptr, ((void *) 0x068a0000) + offset, size, 0, 0);
+    if (GX_defaultDma != -1) {
+        MI_func_0206d87c(GX_defaultDma, ptr, ((void *) 0x068a0000) + offset, size, 0, 0);
     } else {
         MI_CpuCopy32(ptr, ((void *) 0x068a0000) + offset, size);
     }
 }
 
 void GXS_EndLoadOBJExtPltt(void) {
-    if (data_020a708c != -1) {
-        MI_func_0206d934(data_020a708c);
+    if (GX_defaultDma != -1) {
+        MI_func_0206d934(GX_defaultDma);
     }
     GXS_func_0001(data_0216a0fc.unk_18);
     data_0216a0fc.unk_18 = 0;

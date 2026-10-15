@@ -12,7 +12,7 @@ The next available ID increases whenever a new ID is used, so refer to the table
 | `FX`   |   `FX_func_0003` |   `FX_data_0001` |
 | `G2`   |   `G2_func_0007` |   `G2_data_0001` |
 | `G3`   |   `G3_func_0001` |   `G3_data_0001` |
-| `GX`   |   `GX_func_0012` |   `GX_data_0001` |
+| `GX`   |   `GX_func_0012` |   `GX_data_0006` |
 | `MB`   |   `MB_func_0089` |   `MB_data_0001` |
 | `MI`   |   `MI_func_0021` |   `MI_data_0001` |
 | `OS`   |   `OS_func_0179` |   `OS_data_0001` |

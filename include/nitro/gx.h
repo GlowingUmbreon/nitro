@@ -258,7 +258,7 @@ void GX_Init(void);
 void GX_DispOff(void);
 void GX_DispOn(void);
 
-u16 GX_VBlankIntr(BOOL);
+u32 GX_VBlankIntr(BOOL);
 u16 GX_HBlankIntr(BOOL);
 
 void GX_SetBankForLCDC(s32);
@@ -338,14 +338,16 @@ void GX_BeginLoadTex(void);
 void GX_LoadTex(void *ptr, u32 offset, u32 size);
 void GX_EndLoadTex(void);
 
+void GXx_SetMasterBrightness_(s16 *bright, s32 value);
+
 void GX_func_0008(void *, s32, s32);
 
-extern u16 data_020a7088;
-extern u32 data_020a708c;
+extern u16 GX_data_0004;
+extern u32 GX_defaultDma;
 
-extern u16 data_0216a0dc;
-extern u16 data_0216a0de;
-extern GX_UnkStruct2 data_0216a0e0;
+extern u16 GX_data_0002;
+extern u16 GX_data_0001;
+extern GX_UnkStruct2 GX_data_0005;
 
 inline void GXS_DispOff(void) {
     REG_DISPCNT_SUB &= ~0x10000;
