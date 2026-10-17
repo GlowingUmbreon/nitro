@@ -19,12 +19,14 @@ void MI_WaitDma(u32 dma);
 
 void MI_CpuFill8(void *ptr, u8 value, u32 size);
 void MI_CpuCopy8(const void *src, void *dst, u32 size);
-void MI_CpuCopy16(const void *src, void *dst, u32 size);
+void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 void MI_CpuCopy32(const void *src, void *dst, u32 size);
 void MI_CpuFill16(u16 value, void *dst, u32 size);
 void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 void MIi_CpuClearFast(u32 value, void *ptr, u32 size);
 void MIi_CpuClear32(u32 value, void *ptr, u32 size);
+
+void MI_Copy32B(const void *src, void *dst);
 
 void MI_Swap(u32 *a, u32 *b);
 

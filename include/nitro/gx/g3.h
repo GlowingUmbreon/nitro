@@ -1,21 +1,97 @@
 #ifndef _NITRO_G3_H
 #define _NITRO_G3_H
 
+#include "nitro/fx.h"
+#include "nitro/reg.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "nitro/fx.h"
-#include "nitro/gx.h"
 #include "nitro/types.h"
 
 #define G3OP_TEXCOORD 0x1 // guess
 
+#define GX_TEXSIZE_S8 0
+#define GX_TEXSIZE_S16 0x1
+#define GX_TEXSIZE_S32 0x2
+#define GX_TEXSIZE_S64 0x3
+#define GX_TEXSIZE_S128 0x4
+#define GX_TEXSIZE_S256 0x5
+#define GX_TEXSIZE_S512 0x6
+#define GX_TEXSIZE_S1024 0x7
+#define GX_TEXSIZE_T8 0
+#define GX_TEXSIZE_T16 0x1
+#define GX_TEXSIZE_T32 0x2
+#define GX_TEXSIZE_T64 0x3
+#define GX_TEXSIZE_T128 0x4
+#define GX_TEXSIZE_T256 0x5
+#define GX_TEXSIZE_T512 0x6
+#define GX_TEXSIZE_T1024 0x7
+
+#define GX_TEXFMT_NONE 0
+#define GX_TEXFMT_PLTT4 0x2
+#define GX_TEXFMT_PLTT16 0x3
+#define GX_TEXFMT_PLTT256 0x4
+#define GX_TEXFMT_DIRECT 0x7
+
+#define GX_TEXPLTTCOLOR0_USE 0
+#define GX_TEXPLTTCOLOR0_TRNS 0x1
+
+#define GX_TEXGEN_NONE 0
+#define GX_TEXGEN_TEXCOORD 0x1
+
+#define GX_TEXREPEAT_NONE 0
+
+#define GX_TEXFLIP_NONE 0
+
+#define GX_LIGHTMASK_NONE 0
+
+#define GX_POLYGONMODE_MODULATE 0x3
+
+#define GX_CULL_NONE 0
+
+#define GX_BEGIN_QUADS 0x1
+
+#define GX_SORTMODE_MANUAL -1 // unknown value
+
+#define GX_BUFFERMODE_Z -1 // unknown value
+
+#define GX_MTXMODE_POSITION_VECTOR 0x2
+#define GX_MTXMODE_TEXTURE 0x3
+
+typedef u32 GXTexFmt;
+typedef s32 GXTexSizeS;
+typedef s32 GXTexSizeT;
+typedef u32 GXSt;
+
+inline GXSt GX_ST(GXTexSizeS sizeS, GXTexSizeT sizeT) {
+    u16 t = sizeT << 8 >> 16;
+    u16 s = sizeS << 8 >> 16;
+    return s | (t << 16);
+}
+
+typedef u32 GXTexPlttColor0;
+
 void G3X_Init(void);
 void G3X_InitTable(void);
-void G3X_InitMtxStack(void);
 void G3X_Reset(void);
-void G3X_SetClearColor(u32 rgb, u32 a, u32 param3, u32 param4, BOOL param5);
+
+void G3_LoadMtx44(MtxFx44 *arg0);
+void G3_LoadMtx43(MtxFx43 *arg0);
+
+void G3X_ClearFifo(void);
+
+void G3X_InitMtxStack(void);
+void G3X_ResetMtxStack(void);
+s32 G3X_GetMtxStackLevelPV(u32 *arg0);
+s32 G3X_GetMtxStackLevelPJ(u32 *arg0);
+
+void G3X_SetFog(BOOL arg0, s32 arg1, s32 arg2, s16 offset);
+void G3X_SetEdgeColorTable(const void *arg0);
+void G3X_SetFogTable(const void *arg0);
+void G3X_SetClearColor(u32 rgb, u32 a, u32 depth, u32 param4, BOOL param5);
+
+void G3_RotZ(u32 sin, u32 cos);
 
 inline void G3_TexImageParam(GXTexFmt fmt, u32 gen, GXTexSizeS sizeS, GXTexSizeT sizeT, u32 repeat, u32 flip,
                              GXTexPlttColor0 color0, u32 addr) {
@@ -56,10 +132,10 @@ inline void G3_ViewPort(u32 left, u32 top, u32 right, u32 bottom) {
     // left = 0, top = 0, right = 255, bottom = 191 => 0x8000
     REG_GFX_FIFO_VIEWPORT = 0xbfff0000;
 }
-void _G3_Ortho(fx32 top, fx32 bottom, fx32 left, fx32 right, fx32 near, fx32 far, fx32 param7, BOOL param8,
-               void *param9);
-inline void G3_Ortho(fx32 top, fx32 bottom, fx32 left, fx32 right, fx32 near, fx32 far, void *param7) {
-    _G3_Ortho(top, bottom, left, right, near, far, FX32_ONE, TRUE, param7);
+void G3i_OrthoW_(fx32 top, fx32 bottom, fx32 left, fx32 right, fx32 near, fx32 far, fx32 scale, BOOL arg7,
+                 MtxFx44 *out);
+inline void G3_Ortho(fx32 top, fx32 bottom, fx32 left, fx32 right, fx32 near, fx32 far, MtxFx44 *out) {
+    G3i_OrthoW_(top, bottom, left, right, near, far, FX32_ONE, TRUE, out);
 }
 inline void G3_StoreMtx(u32 param1) {
     REG_GFX_FIFO_MATRIX_STORE = param1;
@@ -110,11 +186,11 @@ inline BOOL G3X_IsGeometryBusy(void) {
 }
 
 inline void G3X_AntiAlias(BOOL param1) {
-    REG_DISP3DCNT = REG_DISP3DCNT & ~0x3000 | (param1 << 4);
+    REG_DISP3DCNT = (REG_DISP3DCNT & ~0x3000) | (param1 << 4);
 }
 
 inline void G3X_AlphaBlend(BOOL param1) {
-    REG_DISP3DCNT = REG_DISP3DCNT & ~0x3000 | (param1 << 3);
+    REG_DISP3DCNT = (REG_DISP3DCNT & ~0x3000) | (param1 << 3);
 }
 
 inline void G3X_Unk1(u32 param1) {
@@ -126,7 +202,7 @@ inline void G3X_Unk2(u32 param1) {
 }
 
 #ifdef __cplusplus
-} // extern "C"
+}
 #endif
 
 #endif

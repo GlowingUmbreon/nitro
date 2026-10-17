@@ -48,10 +48,25 @@ src/fx/fx_init.c:
     .text       start:0x020268b8 end:0x02026e04
 
 src/gx/gx_init.c:
-    .text       start:0x02026e08 end:0x02027650
+    .text       start:0x02026e08 end:0x020270c8
 
-src/gx/gx.c:
-    .text       start:0x02027650 end:0x02027f90
+src/gx/gx_blend.c:
+    .text       start:0x020270c8 end:0x020270e4
+
+src/gx/g3.c:
+    .text       start:0x020270e4 end:0x02027650
+
+src/gx/gx_load.c:
+    .text       start:0x02027650 end:0x02027978
+
+src/gx/gx_bank.c:
+    .text       start:0x02027978 end:0x02027ef0
+
+src/gx/gx_fifo.c:
+    .text       start:0x02027ef0 end:0x02027f30
+
+src/gx/gx_state.c:
+    .text       start:0x02027f30 end:0x02027f90
 
 src/mb/mb.c:
     .text       start:0x02027f90 end:0x0202cee4

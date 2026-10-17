@@ -1,22 +1,95 @@
-#ifndef _NITRO_G2_H
-#define _NITRO_G2_H
+#ifndef _NITRO_GX_BG_H
+#define _NITRO_GX_BG_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "nitro/fx.h"
-#include "nitro/gx.h"
 #include "nitro/reg.h"
 #include "nitro/types.h"
 
-void G2_SetBGAffine(u32 *reg, MtxFx22 *mtx, s32 x0, s32 y0, s32 x1, s32 y1);
+#define GX_BGCHAROFFSET_0x00000 0
+#define GX_BGSCROFFSET_0x00000 0
+#define GX_BGMODE_0 0
+#define GX_BGMODE_3 3
+#define GX_BGMODE_5 5
+#define GX_BG0_AS_2D 0
+#define GX_BG_SCRSIZE_TEXT_256x256 0
+#define GX_BG_SCRSIZE_256BMP_128x128 ((GXBGScrSize256Bmp) 0)
+#define GX_BG_SCRSIZE_256BMP_256x256 ((GXBGScrSize256Bmp) 1)
+#define GX_BG_SCRSIZE_256BMP_512x256 ((GXBGScrSize256Bmp) 2)
+#define GX_BG_SCRSIZE_256BMP_512x512 ((GXBGScrSize256Bmp) 3)
+#define GX_BG_SCRSIZE_DCBMP_128x128 ((GXBGScrSizeDcBmp) 0)
+#define GX_BG_SCRSIZE_DCBMP_256x256 ((GXBGScrSizeDcBmp) 1)
+#define GX_BG_SCRSIZE_DCBMP_512x256 ((GXBGScrSizeDcBmp) 2)
+#define GX_BG_SCRSIZE_DCBMP_512x512 ((GXBGScrSizeDcBmp) 3)
+#define GX_BG_AREAOVER_XLU ((GXBGAreaOver) 0)
+#define GX_BG_AREAOVER_REPEAT ((GXBGAreaOver) 1)
+#define GX_BG_BMPSCRBASE_0x00000 ((GXBGBmpScrBase) 0)
+#define GX_BG_BMPSCRBASE_0x04000 ((GXBGBmpScrBase) 1)
+#define GX_BG_BMPSCRBASE_0x08000 ((GXBGBmpScrBase) 2)
+#define GX_BG_BMPSCRBASE_0x0c000 ((GXBGBmpScrBase) 3)
+#define GX_BG_BMPSCRBASE_0x10000 ((GXBGBmpScrBase) 4)
+#define GX_BG_BMPSCRBASE_0x14000 ((GXBGBmpScrBase) 5)
+#define GX_BG_BMPSCRBASE_0x18000 ((GXBGBmpScrBase) 6)
+#define GX_BG_BMPSCRBASE_0x1c000 ((GXBGBmpScrBase) 7)
+#define GX_BG_BMPSCRBASE_0x20000 ((GXBGBmpScrBase) 8)
+#define GX_BG_BMPSCRBASE_0x24000 ((GXBGBmpScrBase) 9)
+#define GX_BG_BMPSCRBASE_0x28000 ((GXBGBmpScrBase) 10)
+#define GX_BG_BMPSCRBASE_0x2c000 ((GXBGBmpScrBase) 11)
+#define GX_BG_BMPSCRBASE_0x30000 ((GXBGBmpScrBase) 12)
+#define GX_BG_BMPSCRBASE_0x34000 ((GXBGBmpScrBase) 13)
+#define GX_BG_BMPSCRBASE_0x38000 ((GXBGBmpScrBase) 14)
+#define GX_BG_BMPSCRBASE_0x3c000 ((GXBGBmpScrBase) 15)
+#define GX_BG_BMPSCRBASE_0x40000 ((GXBGBmpScrBase) 16)
+#define GX_BG_BMPSCRBASE_0x44000 ((GXBGBmpScrBase) 17)
+#define GX_BG_BMPSCRBASE_0x48000 ((GXBGBmpScrBase) 18)
+#define GX_BG_BMPSCRBASE_0x4c000 ((GXBGBmpScrBase) 19)
+#define GX_BG_BMPSCRBASE_0x50000 ((GXBGBmpScrBase) 20)
+#define GX_BG_BMPSCRBASE_0x54000 ((GXBGBmpScrBase) 21)
+#define GX_BG_BMPSCRBASE_0x58000 ((GXBGBmpScrBase) 22)
+#define GX_BG_BMPSCRBASE_0x5c000 ((GXBGBmpScrBase) 23)
+#define GX_BG_BMPSCRBASE_0x60000 ((GXBGBmpScrBase) 24)
+#define GX_BG_BMPSCRBASE_0x64000 ((GXBGBmpScrBase) 25)
+#define GX_BG_BMPSCRBASE_0x68000 ((GXBGBmpScrBase) 26)
+#define GX_BG_BMPSCRBASE_0x6c000 ((GXBGBmpScrBase) 27)
+#define GX_BG_BMPSCRBASE_0x70000 ((GXBGBmpScrBase) 28)
+#define GX_BG_BMPSCRBASE_0x74000 ((GXBGBmpScrBase) 29)
+#define GX_BG_BMPSCRBASE_0x78000 ((GXBGBmpScrBase) 30)
+#define GX_BG_BMPSCRBASE_0x7c000 ((GXBGBmpScrBase) 31)
+#define GX_BG_COLORMODE_16 0
+#define GX_BG_CHARBASE_0x00000 0
+#define GX_BG_SCRBASE_0x0000 0
+#define GX_BG_EXTPLTT_01 1
 
-void _G2_SetBlend(u32 *reg, u32 srcPlane, u32 dstPlane, u32 srcAlpha, u32 dstAlpha);
+typedef u32 GXBGScrSize256Bmp;
+typedef u32 GXBGScrSizeDcBmp;
+typedef u32 GXBGAreaOver;
+typedef u32 GXBGBmpScrBase;
+typedef u32 GXBGScrSizeText;
+typedef u32 GXBGColorMode;
+typedef u32 GXBGScrBase;
+typedef u32 GXBGCharBase;
 
+void *G2_GetBG0ScrPtr(void);
+void *G2S_GetBG0ScrPtr(void);
+void *G2_GetBG1ScrPtr(void);
+void *G2S_GetBG1ScrPtr(void);
 void *G2_GetBG2ScrPtr(void);
+void *G2S_GetBG2ScrPtr(void);
 void *G2_GetBG3ScrPtr(void);
-void *G2S_func_0001();
+void *G2S_GetBG3ScrPtr(void);
+void *G2_GetBG0CharPtr(void);
+void *G2S_GetBG0CharPtr(void);
+void *G2_GetBG1CharPtr(void);
+void *G2S_GetBG1CharPtr(void);
+void *G2_GetBG2CharPtr(void);
+void *G2S_func_0005(void);
+void *G2_GetBG3CharPtr(void);
+void *G2S_func_0006(void);
+
+void G2x_SetBGyAffine_(u32 *reg, MtxFx22 *mtx, s32 x0, s32 y0, s32 x1, s32 y1);
 
 inline void G2_SetBG0Priority(u32 value) {
     REG_BG0CNT = (REG_BG0CNT & ~0x3) | (value);
@@ -179,29 +252,20 @@ inline void G2S_SetBG3ControlText(GXBGScrSizeText scrSize, GXBGColorMode colMode
 }
 
 inline void G2_SetBG2Affine(MtxFx22 *mtx, u32 param2, u32 param3, u32 param4, u32 param5) {
-    G2_SetBGAffine((u32 *) &REG_BG2PA, mtx, param2, param3, param4, param5);
+    G2x_SetBGyAffine_((u32 *) &REG_BG2PA, mtx, param2, param3, param4, param5);
 }
 
 inline void G2_SetBG3Affine(MtxFx22 *mtx, u32 param2, u32 param3, u32 param4, u32 param5) {
-    G2_SetBGAffine((u32 *) &REG_BG3PA, mtx, param2, param3, param4, param5);
+    G2x_SetBGyAffine_((u32 *) &REG_BG3PA, mtx, param2, param3, param4, param5);
 }
 
 inline void G2S_SetBG2Affine(MtxFx22 *mtx, u32 param2, u32 param3, u32 param4, u32 param5) {
-    G2_SetBGAffine((u32 *) &REG_BG2PA_SUB, mtx, param2, param3, param4, param5);
+    G2x_SetBGyAffine_((u32 *) &REG_BG2PA_SUB, mtx, param2, param3, param4, param5);
 }
 
 inline void G2S_SetBG3Affine(MtxFx22 *mtx, u32 param2, u32 param3, u32 param4, u32 param5) {
-    G2_SetBGAffine((u32 *) &REG_BG3PA_SUB, mtx, param2, param3, param4, param5);
+    G2x_SetBGyAffine_((u32 *) &REG_BG3PA_SUB, mtx, param2, param3, param4, param5);
 }
-
-inline void G2_ChangeBlendAlpha(u32 param1, u32 param2) {
-    REG_BLDALPHA = param1 | (param2 << 8);
-}
-
-inline void G2S_ChangeBlendAlpha(u32 param1, u32 param2) {
-    REG_BLDALPHA_SUB = param1 | (param2 << 8);
-}
-
 inline void G2_BG0Mosaic(BOOL flag) {
     if (flag) {
         REG_BG0CNT |= 0x40;
@@ -274,82 +338,16 @@ inline void G2S_SetBGMosaicSize(u32 width, u32 height) {
     REG_MOSAIC_SUB = width | (height << 4);
 }
 
-inline void G2_SetOBJMosaicSize(u32 width, u32 height) {
-    REG_OBJMOSAIC = width | (height << 4);
+inline void GX_SetBGCharOffset(u32 offset) {
+    REG_DISPCNT = (REG_DISPCNT & ~0x7000000) | offset;
 }
 
-inline void G2S_SetOBJMosaicSize(u32 width, u32 height) {
-    REG_OBJMOSAIC_SUB = width | (height << 4);
-}
-
-inline void G2_BlendNone() {
-    REG_BLDCNT = 0;
-}
-
-inline void G2S_BlendNone() {
-    REG_BLDCNT_SUB = 0;
-}
-
-inline void G2_SetBlendAlpha(u32 srcPlane, u32 dstPlane, u32 srcAlpha, u32 dstAlpha) {
-    _G2_SetBlend((u32 *) &REG_BLDCNT, srcPlane, dstPlane, srcAlpha, dstAlpha);
-}
-
-inline void G2S_SetBlendAlpha(u32 srcPlane, u32 dstPlane, u32 srcAlpha, u32 dstAlpha) {
-    _G2_SetBlend((u32 *) &REG_BLDCNT_SUB, srcPlane, dstPlane, srcAlpha, dstAlpha);
-}
-
-inline void G2_GetOBJPosition(GXOamAttr *oam, u32 *x, u32 *y) {
-    *x = (oam->attr01 & 0x1ff0000) >> 16;
-    *y = oam->attr01 & 0xff;
-}
-
-inline void G2_SetOBJPosition(GXOamAttr *oam, u32 x, u32 y) {
-    oam->attr01 = (oam->attr01 & 0xfe00ff00) | (y & 0xff) | (x << 0x17 >> 0x7);
-}
-
-inline u32 G2_GetOBJCharName(GXOamAttr *oam) {
-    return oam->attr2 & 0x3ff;
-}
-
-inline void G2_SetOBJCharName(volatile GXOamAttr *oam, u32 name) {
-    oam->attr2 = (oam->attr2 & -0x400) | (name);
-}
-
-inline u32 G2_GetOBJColorParam(GXOamAttr *oam) {
-    return (oam->attr2 & 0xf000) >> 0xc;
-}
-
-// Defined as macro as sometimes `oam` is volatile and other times not
-#define G2_GetOBJMode(oam) (GXOamMode)(((oam)->attr01 & 0xc00) >> 0xa)
-// inline GXOamMode G2_GetOBJMode(volatile GXOamAttr *oam) {
-//     return ((oam)->attr01 & 0xc00) >> 0xa;
-// }
-
-inline void G2_SetOBJMode(GXOamAttr *oam, GXOamMode mode, u32 color) {
-    oam->attr01 = (oam->attr01 & ~0xc00) | (mode << 0xa);
-    oam->attr2  = (oam->attr2 & ~0xf000) | (color << 0xc);
-}
-
-inline void G2_SetOBJPriority(GXOamAttr *oam, u32 prio) {
-    // no implementation found
-}
-
-inline void G2_SetOBJAttr(GXOamAttr *oam, u32 x, u32 y, u32 param4, GXOamMode mode, BOOL param6, u32 effect, u32 shape,
-                          u32 color, u32 param10, u32 param11, u32 param12) {
-    // Unused: param4, param6, effect, param11, param12
-
-    // c1ff0cff
-    // 3 bits at 0x8
-    // 4 bits at 0xc
-    // 5 bits at 0x19
-    oam->attr01 = (y & 0xff) | (mode << 0xa) | (shape << 0x1e) | ((x << 0x17) >> 0x7);
-    // f3ff
-    // 2 bits at 0xa
-    oam->attr2 = param10 | (color << 0xc);
+inline void GX_SetBGScrOffset(u32 offset) {
+    REG_DISPCNT = (REG_DISPCNT & ~0x38000000) | offset;
 }
 
 #ifdef __cplusplus
-} // extern "C"
+}
 #endif
 
 #endif

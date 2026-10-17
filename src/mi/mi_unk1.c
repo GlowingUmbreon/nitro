@@ -221,7 +221,7 @@ void MI_CpuFill16(u16 value, void *inBuf, u32 size) {
 #endif
 }
 
-void MI_CpuCopy16(const void *inSrc, void *inDst, u32 size) {
+void MIi_CpuCopy16(const void *inSrc, void *inDst, u32 size) {
     u16 *src = inSrc;
     u16 *dst = inDst;
 #ifdef NITRO_NO_ASM

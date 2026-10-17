@@ -137,7 +137,7 @@ void MTX_RotZ33_(MtxFx33 *mtx, fx32 sin, fx32 cos);
 void MTX_Concat33(MtxFx33 *a, MtxFx33 *b, MtxFx33 *dst);
 void MTX_Identity43_(MtxFx43 *mtx);
 void MTX_PerspectiveW(fx32 arg0, fx32 arg1, fx32 arg2, fx32 arg3, fx32 arg4, fx32 arg5, MtxFx44 *mtx);
-void MTX_OrthoW(fx32 top, fx32 bottom, fx32 left, fx32 right, fx32 near, fx32 far, fx32 arg6, MtxFx44 *mtx);
+void MTX_OrthoW(fx32 top, fx32 bottom, fx32 left, fx32 right, fx32 near, fx32 far, fx32 scale, MtxFx44 *mtx);
 
 inline fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b) {
     return ((fx64) a->x * (fx64) b->x + (fx64) a->y * (fx64) b->y + (fx64) a->z * (fx64) b->z) >> FX32_SHIFT;

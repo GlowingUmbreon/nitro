@@ -8,10 +8,22 @@ src/fx/fx_init.c:
     .text       start:0x02068a64 end:0x02068a68
 
 src/gx/gx_init.c:
-    .text       start:0x02068a68 end:0x02068d84
+    .text       start:0x02068a68 end:0x02068d24
 
-src/gx/gx.c:
-    .text       start:0x02068d84 end:0x0206acd8
+src/gx/gx_state.c:
+    .text       start:0x02068d24 end:0x02068d84
+
+src/gx/gx_bank.c:
+    .text       start:0x02068d84 end:0x02069b1c
+
+src/gx/gx_bg.c:
+    .text       start:0x02069b1c end:0x0206a03c
+
+src/gx/gx_blend.c:
+    .text       start:0x0206a03c end:0x0206a058
+
+src/gx/gx_load.c:
+    .text       start:0x0206a058 end:0x0206acd8
 
 src/os/os_irq.c:
     .text       start:0x0206acd8 end:0x0206b040

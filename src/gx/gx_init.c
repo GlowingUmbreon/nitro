@@ -1,15 +1,13 @@
-#include "nitro/gx.h"
+#include "nitro/gx/gx_init.h"
+#include "nitro/gx/gx_state.h"
 #include "nitro/mi.h"
 #include "nitro/os.h"
 #include "nitro/os/os_irq.h"
 
-static void GX_InitGXState(void);
-
 u16 GX_data_0004  = 1;
 u32 GX_defaultDma = 3;
 u16 GX_data_0002  = 0;
-u16 GX_data_0001  = 0;
-GX_UnkStruct2 GX_data_0005;
+u16 GX_lockId     = 0;
 
 void GX_Init(void) {
     REG_POWER_CNT |= 0x8000;
@@ -18,12 +16,12 @@ void GX_Init(void) {
 
     GX_InitGXState();
 
-    while (GX_data_0001 == 0) {
+    while (GX_lockId == 0) {
         s32 lock = OS_GetLockID();
         if (lock == OS_LOCK_ID_ERROR) {
             OS_Panic();
         }
-        GX_data_0001 = lock;
+        GX_lockId = lock;
     }
 
     REG_DISPSTAT = 0;
@@ -126,25 +124,4 @@ u32 GX_SetDefaultDMA(u32 dma) {
     GX_defaultDma = dma;
     OS_RestoreInterrupts(irq);
     return currDma;
-}
-
-static void GX_InitGXState(void) {
-    GX_data_0005.unk_00 = 0;
-    GX_data_0005.unk_02 = 0;
-    GX_data_0005.unk_04 = 0;
-    GX_data_0005.unk_06 = 0;
-    GX_data_0005.unk_08 = 0;
-    GX_data_0005.unk_0a = 0;
-    GX_data_0005.unk_0c = 0;
-    GX_data_0005.unk_0e = 0;
-    GX_data_0005.unk_10 = 0;
-    GX_data_0005.unk_12 = 0;
-    GX_data_0005.unk_14 = 0;
-    GX_data_0005.unk_16 = 0;
-    GX_data_0005.unk_18 = 0;
-    REG_VRAM_CNT_ABCD   = 0;
-    REG_VRAM_CNT_E      = 0;
-    REG_VRAM_CNT_F      = 0;
-    REG_VRAM_CNT_G      = 0;
-    REG_VRAM_CNT_HI     = 0;
 }
