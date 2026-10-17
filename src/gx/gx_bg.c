@@ -3,8 +3,9 @@
 #include "nitro/reg.h"
 
 void *G2_GetBG0ScrPtr(void) {
-    u32 cnt = (REG_BG0CNT & 0x1f00) >> 8 << 11;
-    return ((REG_DISPCNT & 0x38000000) >> 27 << 16) + HW_BG_VRAM + cnt;
+    u32 offset = (REG_BG0CNT & 0x1f00) >> 8 << 11;
+    u32 ptr    = ((REG_DISPCNT & 0x38000000) >> 27 << 16) + (u32) HW_BG_VRAM;
+    return (void *) (offset + ptr);
 }
 
 void *G2S_GetBG0ScrPtr(void) {
@@ -12,8 +13,9 @@ void *G2S_GetBG0ScrPtr(void) {
 }
 
 void *G2_GetBG1ScrPtr(void) {
-    u32 cnt = ((REG_BG1CNT & 0x1f00) >> 8 << 11);
-    return ((REG_DISPCNT & 0x38000000) >> 27 << 16) + HW_BG_VRAM + cnt;
+    u32 offset = ((REG_BG1CNT & 0x1f00) >> 8 << 11);
+    u32 ptr    = ((REG_DISPCNT & 0x38000000) >> 27 << 16) + (u32) HW_BG_VRAM;
+    return (void *) (offset + ptr);
 }
 
 void *G2S_GetBG1ScrPtr(void) {
@@ -121,9 +123,9 @@ void *G2S_GetBG3ScrPtr(void) {
 THUMB_ENABLE();
 
 void *G2_GetBG0CharPtr(void) {
-    u32 r1   = (REG_BG0CNT & 0x3c) >> 2 << 14;
-    void *r0 = ((REG_DISPCNT & 0x7000000) >> 24 << 16) + HW_BG_VRAM;
-    return r0 + r1;
+    u32 offset = (REG_BG0CNT & 0x3c) >> 2 << 14;
+    u32 ptr    = ((REG_DISPCNT & 0x7000000) >> 24 << 16) + (u32) HW_BG_VRAM;
+    return (void *) (offset + ptr);
 }
 
 void *G2S_GetBG0CharPtr(void) {
@@ -131,9 +133,9 @@ void *G2S_GetBG0CharPtr(void) {
 }
 
 void *G2_GetBG1CharPtr(void) {
-    u32 r1   = (REG_BG1CNT & 0x3c) >> 2 << 14;
-    void *r0 = ((REG_DISPCNT & 0x7000000) >> 24 << 16) + HW_BG_VRAM;
-    return r0 + r1;
+    u32 offset = (REG_BG1CNT & 0x3c) >> 2 << 14;
+    u32 ptr    = ((REG_DISPCNT & 0x7000000) >> 24 << 16) + (u32) HW_BG_VRAM;
+    return (void *) (offset + ptr);
 }
 
 void *G2S_GetBG1CharPtr(void) {
