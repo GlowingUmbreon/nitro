@@ -50,6 +50,7 @@ src/gx/gx_blend.c:
 
 src/gx/g3.c:
     .text       start:0x0213438c end:0x02134648
+    complete
 
 src/gx/gx_load.c:
     .text       start:0x02134648 end:0x02134ab4
