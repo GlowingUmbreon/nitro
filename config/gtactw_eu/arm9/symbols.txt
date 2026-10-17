@@ -14142,8 +14142,8 @@ data_02170b40 kind:data(any) addr:0x02170b40
 data_02170b80 kind:data(any) addr:0x02170b80
 data_02170c80 kind:data(any) addr:0x02170c80
 data_02170c81 kind:data(any) addr:0x02170c81
-GX_data_0004 kind:data(any) addr:0x02170cc0
-GX_defaultDma kind:data(any) addr:0x02170cc4
+GX_data_0004 kind:data(short) addr:0x02170cc0
+GX_defaultDma kind:data(word) addr:0x02170cc4
 data_02170cc8 kind:data(any) addr:0x02170cc8
 data_02170cd8 kind:data(any) addr:0x02170cd8
 data_02170cdc kind:data(any) addr:0x02170cdc

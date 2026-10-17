@@ -90,8 +90,7 @@ void GX_SetGraphicsMode(u32 param1, u32 param2, u32 param3) {
     if (GX_data_0004 == 0) {
         param1 = 0;
     }
-    cnt         = (cnt & ~0xf000f) | (param1 << 16);
-    REG_DISPCNT = param2 | cnt | (param3 << 3);
+    REG_DISPCNT = param2 | ((cnt & ~0xf000f) | (param1 << 16)) | (param3 << 3);
     if (GX_data_0002 == 0) {
         GX_data_0004 = 0;
     }
