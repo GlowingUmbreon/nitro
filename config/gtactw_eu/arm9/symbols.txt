@@ -15276,7 +15276,7 @@ data_021f8e60 kind:bss addr:0x021f8e60
 data_021f8e6c kind:bss addr:0x021f8e6c
 GX_data_0002 kind:bss addr:0x021f943c
 GX_lockId kind:bss addr:0x021f943e
-GX_banks kind:bss addr:0x021f9440
+GX_banks kind:bss(size=0x1a) addr:0x021f9440
 data_021f945c kind:bss addr:0x021f945c
 data_021f9460 kind:bss addr:0x021f9460
 data_021f9464 kind:bss addr:0x021f9464

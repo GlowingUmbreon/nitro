@@ -35,6 +35,8 @@ src/gx/gx_init.c:
 
 src/gx/gx_state.c:
     .text       start:0x021335e0 end:0x02133614
+    .bss        start:0x021f9440 end:0x021f945c
+    complete
 
 src/gx/gx_bank.c:
     .text       start:0x02133614 end:0x02133ff0
