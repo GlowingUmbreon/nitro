@@ -331,6 +331,7 @@ void GX_SetBankForClearImage(s32 bank) {
     GX_VRAMCNT_SetLCDC_(GX_banks.lcdc);
 }
 
+// https://decomp.me/scratch/FVqpo
 void GX_SetBankForARM7(s32 bank) {
     GX_banks.lcdc = (GX_banks.lcdc | GX_banks.arm7) & ~bank;
     GX_banks.arm7 = bank;
@@ -379,11 +380,12 @@ void GX_SetBankForLCDC(s32 bank) {
     GX_VRAMCNT_SetLCDC_(bank);
 }
 
+// https://decomp.me/scratch/7y6E9
 void GX_SetBankForSubBG(s32 bank) {
     GX_banks.lcdc  = ~bank & (GX_banks.lcdc | GX_banks.subBg);
     GX_banks.subBg = bank;
     switch (bank) {
-        case 0x1:
+        case 0x0:
             break;
         case 0x4:
             REG_VRAM_CNT_C = 0x84;
@@ -498,7 +500,7 @@ u16 GX_ResetBankForTexPltt(void) {
 }
 
 u16 GX_ResetBankForSubOBJ(void) {
-    return resetBankForX_(&GX_banks.objExtPltt);
+    return resetBankForX_(&GX_banks.subObj);
 }
 
 u16 GX_ResetBankForBGExtPltt(void) {
