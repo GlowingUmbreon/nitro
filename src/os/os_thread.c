@@ -8,8 +8,17 @@
     #define __LS_OS_SetThreadPriority_0 0x6ed
     #define __LS_OS_SetThreadPriority_1 0x6ee
     #define __LS_OS_GetThreadPriority_0 0x724
+    #define __LS_OS_CreateThread_0 0x33a
+    #define __LS_OS_CreateThread_1 0x33c
+    #define __LS_OS_CreateThread_2 0x33d
+    #define __LS_OS_CreateThread_3 0x33e
+    #define __LS_OS_CreateThread_4 0x346
+    #define __LS_OS_CreateThread_5 0x5d
+    #define __LS_OS_CreateThread_6 0x5e
+    
     //#ifdef SPOOF_LINE_NUMBERS
-        #define ASSERT_WITH_MESSAGE_2(condition, message, line_number) if (condition) _TEMP_PANIC_2(__FILE__, line_number, message)
+        #define ASSERT_WITH_MESSAGE_2(line_number, condition, message) do {if (condition) _TEMP_PANIC_2(__FILE__, line_number, message);} while (0)
+        #define ASSERT_WITH_MESSAGE_2_ARG(line_number, condition, message, arg) do {if (condition) _TEMP_PANIC_2(__FILE__, line_number, message, arg);} while (0) // This might actually be dedicated to align casts?
     //#else
     //    #define ASSERT_WITH_MESSAGE_2(condition, message) if (condition) _TEMP_PANIC_2(__FILE__, __LINE__, message)
     //#endif
@@ -177,7 +186,7 @@ static void OSi_RemoveThreadFromList(OSThread *param_1) {
         prev = iter;
         iter = iter->nextPrio;
     }
-    ASSERT_WITH_MESSAGE_2(iter == NULL, "OS_GetThreadPriority: bad thread", __LS_OSi_RemoveThreadFromList_0);
+    ASSERT_WITH_MESSAGE_2(__LS_OSi_RemoveThreadFromList_0, iter == NULL, "OS_GetThreadPriority: bad thread");
     if (prev == NULL) {
         gHighestPriorityThread = param_1->nextPrio;
     } else {
@@ -248,10 +257,22 @@ void OS_InitThread(void) {
     sIdleThread.unk_64 = 1;
 }
 
-void OS_CreateThread(OSThread *thread, void (*threadFunc)(void *arg), void *arg, void *stackHi, u32 stackSize,
-                     u32 prio) {
-    u32 uVar1      = OS_DisableInterrupts();
-    u32 uVar2      = OSi_GetUnusedThreadId();
+void OS_CreateThread(OSThread *thread, void (*threadFunc)(void *arg), void *arg, void *stackHi, u32 stackSize, u32 prio) {
+    // TODO: This seems to have has some pretty big changes between GTA CW & star wars
+    s32 uVar1;
+    s32 uVar2;
+    u32 destination_address;
+    ASSERT_WITH_MESSAGE_2(__LS_OS_CreateThread_0, OSi_ThreadInitialized == FALSE, "thread system were not initialized.");
+    ASSERT_WITH_MESSAGE_2(__LS_OS_CreateThread_1, prio > 0x1f, "invalid priority");
+    ASSERT_WITH_MESSAGE_2_ARG(__LS_OS_CreateThread_2, (u32)stackSize & 3 != 0, "stack size must be aligned by %d", 4);
+    ASSERT_WITH_MESSAGE_2_ARG(__LS_OS_CreateThread_3, (u32)stackHi & 3 != 0, "stack must be aligned by %d", 4);
+
+    uVar1      = OS_DisableInterrupts();
+    uVar2      = OSi_GetUnusedThreadId();
+    if (uVar1 < 0) {
+        ASSERT_WITH_MESSAGE_2(__LS_OS_CreateThread_4, uVar2 < 0, "OS_CreateThread: thread entry not allocated");
+        OS_RestoreInterrupts(uVar1);
+    }
     thread->prio   = prio;
     thread->unk_6c = uVar2;
     thread->unk_64 = 0;
@@ -267,7 +288,10 @@ void OS_CreateThread(OSThread *thread, void (*threadFunc)(void *arg), void *arg,
     OS_InitContext(thread, threadFunc, stackHi - 8);
     thread->context.regs[0]  = (u32) arg; // set first argument to threadFunc
     thread->context.regs[14] = (u32) OS_ExitThread; // set return address
-    MIi_CpuClear32(0, stackHi - stackSize + 4, stackSize - 12);
+    ASSERT_WITH_MESSAGE_2(__LS_OS_CreateThread_5, stackSize & 3 != 0, "size & 3 must be 0");
+    destination_address = (u32)stackHi - stackSize + 4;
+    ASSERT_WITH_MESSAGE_2(__LS_OS_CreateThread_6, destination_address & 3 != 0, "destination address must be in 4-byte alignment");
+    MIi_CpuClear32(0, (void*)destination_address, stackSize - 12);
     thread->unk_84      = 0;
     thread->unk_88.head = NULL;
     thread->unk_88.tail = NULL;
@@ -393,8 +417,8 @@ static BOOL OS_SetThreadPriority(OSThread *thread, u32 prio) {
 
     iter = gHighestPriorityThread;
     prev = NULL;
-    ASSERT_WITH_MESSAGE_2(prio > 0x1f, "invalid priority", __LS_OS_SetThreadPriority_0);
-    ASSERT_WITH_MESSAGE_2(thread == &sIdleThread, "cannot change idle thread priority.", __LS_OS_SetThreadPriority_1);
+    ASSERT_WITH_MESSAGE_2(__LS_OS_SetThreadPriority_0, prio > 0x1f, "invalid priority");
+    ASSERT_WITH_MESSAGE_2(__LS_OS_SetThreadPriority_1, thread == &sIdleThread, "cannot change idle thread priority.");
     irq  = OS_DisableInterrupts();
     while ((iter != NULL) && (iter != thread)) {
         prev = iter;
@@ -419,7 +443,7 @@ static BOOL OS_SetThreadPriority(OSThread *thread, u32 prio) {
 }
 
 static u32 OS_GetThreadPriority(OSThread *thread) {
-    ASSERT_WITH_MESSAGE_2(thread == NULL, "OS_GetThreadPriority: bad thread", __LS_OS_GetThreadPriority_0);
+    ASSERT_WITH_MESSAGE_2(__LS_OS_GetThreadPriority_0, thread == NULL, "OS_GetThreadPriority: bad thread");
     return thread->prio;
 }
 
