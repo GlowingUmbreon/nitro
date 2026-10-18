@@ -119,8 +119,8 @@ u32 OS_GetConsoleType(void);
 
 u32 OS_GetLockID(void);
 
-BOOL OS_func_0206d5ac(u16, u32);
-void OS_func_0206d66c(u16, u32);
+BOOL OS_func_0109(u16, u32);
+void OSi_UnlockVram(u16, u32);
 u32 OS_func_0206d3cc(void);
 u32 OS_GetProcMode(void);
 

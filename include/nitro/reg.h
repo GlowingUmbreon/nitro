@@ -101,6 +101,7 @@ typedef struct DivParam {
 #define REG_GFX_FIFO_MATRIX_STORE (*(vu32 *) (REG_BASE | 0x44C))
 #define REG_GFX_FIFO_MATRIX_RESTORE (*(vu32 *) (REG_BASE | 0x450))
 #define REG_GFX_FIFO_MATRIX_IDENTITY (*(vu32 *) (REG_BASE | 0x454))
+#define REG_GFX_FIFO_MATRIX_MULT_3x3 (*(vu32 *) (REG_BASE | 0x468))
 #define REG_GFX_FIFO_MATRIX_SCALE (*(vu32 *) (REG_BASE | 0x46C))
 #define REG_GFX_FIFO_MATRIX_TRANSLATE (*(vu32 *) (REG_BASE | 0x470))
 #define REG_GFX_FIFO_VERTEX_COLOR (*(vu32 *) (REG_BASE | 0x480))
@@ -116,6 +117,15 @@ typedef struct DivParam {
 #define REG_GFX_FIFO_POLYGONS_END (*(vu32 *) (REG_BASE | 0x504))
 #define REG_GFX_FIFO_SWAP_BUFFERS (*(vu32 *) (REG_BASE | 0x540))
 #define REG_GFX_FIFO_VIEWPORT (*(vu32 *) (REG_BASE | 0x580))
+
+#define REG_GFX_EDGE_TABLE (*(vu16 *) (REG_BASE | 0x330))
+
+#define REG_GFX_FOG_CLEAR_COLOR (*(vu32 *) (REG_BASE | 0x350))
+#define REG_GFX_FOG_CLEAR_DEPTH (*(vu16 *) (REG_BASE | 0x354))
+
+#define REG_GFX_FOG_COLOR (*(vu16 *) (REG_BASE | 0x358))
+#define REG_GFX_FOG_OFFSET (*(vu16 *) (REG_BASE | 0x35C))
+#define REG_GFX_FOG_TABLE (*(vu16 *) (REG_BASE | 0x360))
 
 #define REG_IPC_SYNC (*(vu16 *) (REG_BASE | 0x180))
 #define REG_IPC_FIFO_CNT (*(vu16 *) (REG_BASE | 0x184))
@@ -136,7 +146,7 @@ extern u32 __CODE_HI;
 #define _MAIN_REG_BASE REG_BASE
 #define _SUB_REG_BASE (REG_BASE | 0x1000)
 
-#define _REG_DISPCNT(base) (*(u32 *) ((base) | 0x0))
+#define _REG_DISPCNT(base) (*(vu32 *) ((base) | 0x0))
 #define _REG_BG0CNT(base) (*(vu16 *) ((base) | 0x8))
 #define _REG_BG1CNT(base) (*(vu16 *) ((base) | 0xA))
 #define _REG_BG2CNT(base) (*(vu16 *) ((base) | 0xC))
@@ -161,8 +171,10 @@ extern u32 __CODE_HI;
 #define _REG_WINOUT(base) (*(u16 *) ((base) | 0x4A))
 #define _REG_MOSAIC(base) (*(u8 *) ((base) | 0x4C))
 #define _REG_OBJMOSAIC(base) (*(u8 *) ((base) | 0x4D))
+#define _REG_BLD(base) (*(REGBlend *) ((base) | 0x50))
 #define _REG_BLDCNT(base) (*(u16 *) ((base) | 0x50))
 #define _REG_BLDALPHA(base) (*(u16 *) ((base) | 0x52))
+#define _REG_BLDY(base) (*(u32 *) )((base) | 0x54)
 #define _REG_MASTER_BRIGHT(base) (*(u16 *) ((base) | 0x6C))
 
 #define REG_DISPCNT _REG_DISPCNT(_MAIN_REG_BASE)
@@ -190,8 +202,10 @@ extern u32 __CODE_HI;
 #define REG_WINOUT _REG_WINOUT(_MAIN_REG_BASE)
 #define REG_MOSAIC _REG_MOSAIC(_MAIN_REG_BASE)
 #define REG_OBJMOSAIC _REG_OBJMOSAIC(_MAIN_REG_BASE)
+#define REG_BLD _REG_BLD(_MAIN_REG_BASE)
 #define REG_BLDCNT _REG_BLDCNT(_MAIN_REG_BASE)
 #define REG_BLDALPHA _REG_BLDALPHA(_MAIN_REG_BASE)
+#define REG_BLDY _REG_BLDY(_MAIN_REG_BASE)
 #define REG_MASTER_BRIGHT _REG_MASTER_BRIGHT(_MAIN_REG_BASE)
 
 #define REG_DISPCNT_SUB _REG_DISPCNT(_SUB_REG_BASE)
@@ -219,8 +233,10 @@ extern u32 __CODE_HI;
 #define REG_WINOUT_SUB _REG_WINOUT(_SUB_REG_BASE)
 #define REG_MOSAIC_SUB _REG_MOSAIC(_SUB_REG_BASE)
 #define REG_OBJMOSAIC_SUB _REG_OBJMOSAIC(_SUB_REG_BASE)
+#define REG_BLD_SUB _REG_BLD(_SUB_REG_BASE)
 #define REG_BLDCNT_SUB _REG_BLDCNT(_SUB_REG_BASE)
 #define REG_BLDALPHA_SUB _REG_BLDALPHA(_SUB_REG_BASE)
+#define REG_BLDY_SUB _REG_BLDY(_SUB_REG_BASE)
 #define REG_MASTER_BRIGHT_SUB _REG_MASTER_BRIGHT(_SUB_REG_BASE)
 
 #define REG_A9ROM_OFFSET 0x4000
@@ -287,6 +303,12 @@ typedef struct RomHeader {
     /* 16c */ PAD(0x16c, 0x170);
     /* 170 */
 } RomHeader;
+
+typedef struct REGBlend {
+    u16 cnt;
+    u16 alpha;
+    u16 brightness;
+} REGBlend;
 
 #ifdef __cplusplus
 } // extern "C"

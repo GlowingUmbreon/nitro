@@ -11005,7 +11005,7 @@ G3X_SetFogTable kind:function(thumb,size=0x10) addr:0x021344e0
 G3X_SetClearColor kind:function(thumb,size=0x24) addr:0x021344f0
 G3X_GetMtxStackLevelPV kind:function(thumb,size=0x24) addr:0x02134514
 G3X_GetMtxStackLevelPJ kind:function(thumb,size=0x24) addr:0x02134538
-GXi_NopClearFifo128_ kind:function(arm,size=0x94) addr:0x0213455c
+GXi_NopClearFifo128_ kind:function(arm,size=0x94) addr:0x0213455c local
 G3i_OrthoW_ kind:function(thumb,size=0x38) addr:0x021345f0
 G3_RotZ kind:function(thumb,size=0x20) addr:0x02134628
 GX_LoadBGPltt kind:function(thumb,size=0x3c) addr:0x02134648
@@ -11788,7 +11788,7 @@ func_02147064 kind:function(arm,size=0x1c0) addr:0x02147064
 _ll_sdiv kind:label(arm) addr:0x02147074
 func_02147224 kind:function(arm,size=0x48) addr:0x02147224
 .L_02147230 kind:label(arm) addr:0x02147230
-func_0214726c kind:function(arm,size=0x20) addr:0x0214726c
+_ll_mul kind:function(arm,size=0x20) addr:0x0214726c
 func_0214728c kind:function(arm,size=0x30) addr:0x0214728c
 func_021472bc kind:function(arm,size=0x30) addr:0x021472bc
 _s32_div_f kind:function(arm,size=0x20c) addr:0x021472ec
@@ -14142,8 +14142,8 @@ data_02170b40 kind:data(any) addr:0x02170b40
 data_02170b80 kind:data(any) addr:0x02170b80
 data_02170c80 kind:data(any) addr:0x02170c80
 data_02170c81 kind:data(any) addr:0x02170c81
-data_02170cc0 kind:data(any) addr:0x02170cc0
-data_02170cc4 kind:data(any) addr:0x02170cc4
+GX_data_0004 kind:data(short) addr:0x02170cc0
+GX_defaultDma kind:data(word) addr:0x02170cc4
 data_02170cc8 kind:data(any) addr:0x02170cc8
 data_02170cd8 kind:data(any) addr:0x02170cd8
 data_02170cdc kind:data(any) addr:0x02170cdc
@@ -15274,21 +15274,9 @@ data_021f87dc kind:bss addr:0x021f87dc
 data_021f8e48 kind:bss addr:0x021f8e48
 data_021f8e60 kind:bss addr:0x021f8e60
 data_021f8e6c kind:bss addr:0x021f8e6c
-data_021f943c kind:bss addr:0x021f943c
-data_021f943e kind:bss addr:0x021f943e
-data_021f9440 kind:bss addr:0x021f9440
-data_021f9442 kind:bss addr:0x021f9442
-data_021f9444 kind:bss addr:0x021f9444
-data_021f9446 kind:bss addr:0x021f9446
-data_021f9448 kind:bss addr:0x021f9448
-data_021f944a kind:bss addr:0x021f944a
-data_021f944c kind:bss addr:0x021f944c
-data_021f944e kind:bss addr:0x021f944e
-data_021f9450 kind:bss addr:0x021f9450
-data_021f9452 kind:bss addr:0x021f9452
-data_021f9454 kind:bss addr:0x021f9454
-data_021f9456 kind:bss addr:0x021f9456
-data_021f9458 kind:bss addr:0x021f9458
+GX_data_0002 kind:bss addr:0x021f943c
+GX_lockId kind:bss addr:0x021f943e
+GX_banks kind:bss(size=0x1a) addr:0x021f9440
 data_021f945c kind:bss addr:0x021f945c
 data_021f9460 kind:bss addr:0x021f9460
 data_021f9464 kind:bss addr:0x021f9464

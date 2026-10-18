@@ -227,12 +227,24 @@ This table outlines the source of every symbol/macro name used in this decompila
 | MTX_Concat33     | Function | gtactw
 | MTX_Identity43_  | Function | gtactw
 ||
-| G2_SetBGAffine | Function | pm4 | Deduced from G2_SetBG2Affine and G2_SetBG3Affine
+| G2x_SetBGyAffine_          | Function | gtactw
+| G2x_SetBlendBrightness_    | Function | gtactw
+| G2x_ChangeBlendBrightness_ | Function | gtactw
+| _G2_SetBlend               | Function
 ||
-| _G2_SetBlend | Function
+| G2_GetBG0ScrPtr  | Function | gtactw
+| G2_GetBG1ScrPtr  | Function | gtactw
+| G2_GetBG2ScrPtr  | Function | pm4
+| G2_GetBG3ScrPtr  | Function | pm4
+| G2S_GetBG0ScrPtr | Function | gtactw
+| G2S_GetBG1ScrPtr | Function | gtactw
 ||
-| G2_GetBG2ScrPtr | Function | pm4
-| G2_GetBG3ScrPtr | Function | pm4
+| G2_GetBG0CharPtr  | Function | gtactw
+| G2S_GetBG0CharPtr | Function | gtactw
+| G2_GetBG1CharPtr  | Function | gtactw
+| G2S_GetBG1CharPtr | Function | gtactw
+| G2_GetBG2CharPtr  | Function | gtactw
+| G2_GetBG3CharPtr  | Function | gtactw
 ||
 | G2_SetBG0Priority  | Function | pm4, diamondtrust
 | G2_SetBG1Priority  | Function | pm4
@@ -321,10 +333,10 @@ This table outlines the source of every symbol/macro name used in this decompila
 | G3_PushMtx   | Function | diamondtrust
 | G3_Translate | Function | diamondtrust
 | G3_ViewPort  | Function | diamondtrust
-| _G3_Ortho    | Function | diamondtrust | Deduced from G3_Ortho
+| G3i_OrthoW_  | Function | gtactw
 | G3_Ortho     | Function | diamondtrust
 | G3_StoreMtx  | Function | diamondtrust
-| _G3_LookAt   | Function | diamondtrust | Deduced from G3_LookAt
+| _G3_LookAt   | Function
 | G3_LookAt    | Function | diamondtrust
 | G3_MtxMode   | Function | diamondtrust
 | G3_Identity  | Function | diamondtrust
@@ -568,16 +580,39 @@ This table outlines the source of every symbol/macro name used in this decompila
 ||
 | GX_VRAMCNT_SetLCDC_ | Function | gtactw
 ||
-| GX_SetBankForLCDC | Function | pm4, diamondtrust
-| GX_DisableBankForLCDC | Function | pm4, diamondtrust
-| GX_SetBankForBG | Function | pm4
-| GX_SetBankForOBJ | Function | pm4
-| GX_SetBankForSubBG | Function | pm4, diamondtrust
-| GX_SetBankForSubOBJ | Function | pm4, diamondtrust
-| GX_SetBankForTex | Function | diamondtrust
-| GX_SetBankForTexPltt | Function | diamondtrust
-| GX_SetGraphicsMode | Function | pm4, diamondtrust
-| GXS_SetGraphicsMode | Function | pm4, diamondtrust
+| GX_SetBankForBG            | Function | pm4
+| GX_SetBankForOBJ           | Function | pm4
+| GX_SetBankForBGExtPltt     | Function | gtactw
+| GX_SetBankForOBJExtPltt    | Function | gtactw
+| GX_SetBankForTex           | Function | diamondtrust
+| GX_SetBankForTexPltt       | Function | diamondtrust
+| GX_SetBankForClearImage    | Function | gtactw
+| GX_SetBankForARM7          | Function | gtactw
+| GX_SetBankForLCDC          | Function | pm4, diamondtrust
+| GX_SetBankForSubBG         | Function | pm4, diamondtrust
+| GX_SetBankForSubOBJ        | Function | pm4, diamondtrust
+| GX_SetBankForSubBGExtPltt  | Function | gtactw
+| GX_SetBankForSubOBJExtPltt | Function | gtactw
+||
+| GX_DisableBankForBG            | Function | gtactw
+| GX_DisableBankForOBJ           | Function | gtactw
+| GX_DisableBankForBGExtPltt     | Function | gtactw
+| GX_DisableBankForOBJExtPltt    | Function | gtactw
+| GX_DisableBankForTex           | Function | gtactw
+| GX_DisableBankForTexPltt       | Function | gtactw
+| GX_DisableBankForClearImage    | Function | gtactw
+| GX_DisableBankForARM7          | Function | gtactw
+| GX_DisableBankForLCDC          | Function | gtactw, pm4, diamondtrust
+| GX_DisableBankForSubBG         | Function | gtactw
+| GX_DisableBankForSubOBJ        | Function | gtactw
+| GX_DisableBankForSubBGExtPltt  | Function | gtactw
+| GX_DisableBankForSubOBJExtPltt | Function | gtactw
+||
+| GX_SetGraphicsMode         | Function | pm4, diamondtrust
+| GXS_SetGraphicsMode        | Function | pm4, diamondtrust
+||
+| resetBankForX_   | Function | gtactw
+| disableBankForX_ | Function | gtactw
 ||
 | GX_LoadOAM | Function | pm4
 | GXS_LoadOAM | Function | pm4, diamondtrust
@@ -691,12 +726,15 @@ This table outlines the source of every symbol/macro name used in this decompila
 | MI_DmaCopy32 | Function | pm4
 | MI_IsDmaBusy | Function | pm4
 ||
-| _MI_CpuFill | Function
-| MI_CpuFill8 | Function | pm4
-| MI_CpuCopy8 | Function | pm4
-| MI_CpuCopy16 | Function
-| MI_CpuCopy32 | Function
-| MI_CpuFill32 | Function | gtpd
+| MI_CpuFill8      | Function | pm4
+| MI_CpuCopy8      | Function | pm4
+| MIi_CpuCopy16    | Function | gtactw
+| MIi_CpuCopy32    | Function | gtactw
+| MI_CpuFill32     | Function | gtpd
+| MIi_CpuCopyFast  | Function | gtactw
+| MIi_CpuClearFast | Function | gtactw
+| MIi_CpuClear32   | Function | gtactw
+||
 | MI_Swap | Function
 ||
 | MI_CpuClearFast | Function | pm4, diamondtrust, gtpd
@@ -755,6 +793,8 @@ This table outlines the source of every symbol/macro name used in this decompila
 | OS_UnlockByWord | Function | gtactw
 ||
 | OSi_FreeCardBus | function | gtactw
+||
+| OSi_UnlockVram | function | gtactw
 ||
 | OS_TPrintf  | Function | pm4, diamondtrust
 | OS_Printf   | Function | pm4, diamondtrust

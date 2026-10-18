@@ -6,6 +6,7 @@ CompileFlags:
   - -Ilibs/c/include
   - -Ilibs/cpp/include
   - -Wno-c99-designator
+  - -Wmissing-prototypes
   - -Wall
   - -D__CLANGD__
 Diagnostics:
