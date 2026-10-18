@@ -1,12 +1,12 @@
 #ifndef _NITRO_G3_H
 #define _NITRO_G3_H
 
-#include "nitro/fx.h"
-#include "nitro/reg.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include "nitro/fx.h"
+#include "nitro/reg.h"
 #include "nitro/types.h"
 
 #define G3OP_TEXCOORD 0x1 // guess
@@ -46,11 +46,17 @@ extern "C" {
 
 #define GX_LIGHTMASK_NONE 0
 
+#define GX_POLYGONMODE_UNK_00 0x0
+#define GX_POLYGONMODE_UNK_01 0x1
+#define GX_POLYGONMODE_UNK_02 0x2
 #define GX_POLYGONMODE_MODULATE 0x3
 
 #define GX_CULL_NONE 0
 
-#define GX_BEGIN_QUADS 0x1
+#define GX_BEGIN_TRIS 0
+#define GX_BEGIN_QUADS 1
+#define GX_BEGIN_TRIS_STRIPS 2
+#define GX_BEGIN_QUAD_STRIPS 3
 
 #define GX_SORTMODE_MANUAL -1 // unknown value
 
@@ -95,28 +101,34 @@ void G3_RotZ(u32 sin, u32 cos);
 
 inline void G3_TexImageParam(GXTexFmt fmt, u32 gen, GXTexSizeS sizeS, GXTexSizeT sizeT, u32 repeat, u32 flip,
                              GXTexPlttColor0 color0, u32 addr) {
-    // Unclear where repeat and flip should go
-    // GGCFFFTT_TSSSxAAA_AAAAAAAA_AAAAAxxx
+    // GGCFFFTT_TSSSffRR_AAAAAAAA_AAAAAAAA (based on gbatek)
     // G: gen
     // C: color0
     // F: fmt
     // T: sizeT
     // S: sizeS
     // A: addr
-    REG_GFX_FIFO_TEXTURE_PARAM =
-        (fmt << 0x1a) | (addr << 0x3) | (gen << 0x1e) | (sizeS << 0x14) | (sizeT << 0x17) | (color0 << 0x1d);
+    // R: repeat (& 1 -> S direction, & 2 -> T direction)
+    // f: flip (& 1 -> S direction, & 2 -> T direction)
+    REG_GFX_FIFO_TEXTURE_PARAM = (fmt << 0x1A) | addr | (gen << 0x1E) | (sizeS << 0x14) | (sizeT << 0x17) |
+                                 (color0 << 0x1D) | (flip << 0x12) | (repeat << 0x10);
 }
+
 inline void G3_TexPlttBase(u32 addr, GXTexFmt fmt) {
     REG_GFX_FIFO_TEXTURE_PALETTE = addr >> (4 - (fmt == 2));
 }
 
 inline void G3_PolygonAttr(u32 lightMask, u32 polygonMode, u32 cull, u32 id, u32 alpha, u32 param6) {
-    // Unclear where lightMask, cull and param6 should go
-    // xxIIIIII_xxxAAAAA_xxxxxxxx_PPxxxxxx
+    // uuIIIIII_uuuAAAAA_uuuFuuuu_CCPPLLLL (based on gbatek)
     // I: id
     // A: alpha
+    // F: param6 (enables fog)
+    // C: cull
     // P: polygonMode
-    REG_GFX_FIFO_POLYGON_ATTR = (id << 0x18) | (polygonMode << 0x6) | (alpha << 0x10);
+    // L: lightMask
+    // u: unknown
+    REG_GFX_FIFO_POLYGON_ATTR =
+        (id << 0x18) | (param6 << 0x0F) | (cull << 0x06) | (polygonMode << 0x04) | (alpha << 0x10) | lightMask;
 }
 
 inline void G3_PushMtx(void) {
@@ -127,6 +139,13 @@ inline void G3_Translate(fx32 x, fx32 y, fx32 z) {
     REG_GFX_FIFO_MATRIX_TRANSLATE = y;
     REG_GFX_FIFO_MATRIX_TRANSLATE = z;
 }
+
+inline void G3_Scale(fx32 x, fx32 y, fx32 z) {
+    REG_GFX_FIFO_MATRIX_SCALE = x;
+    REG_GFX_FIFO_MATRIX_SCALE = y;
+    REG_GFX_FIFO_MATRIX_SCALE = z;
+}
+
 inline void G3_ViewPort(u32 left, u32 top, u32 right, u32 bottom) {
     // Unclear how to combine the arguments
     // left = 0, top = 0, right = 255, bottom = 191 => 0x8000
@@ -167,10 +186,20 @@ inline void G3_Direct1(u32 op, GXSt texCoord) {
             break;
     }
 }
+
 inline void G3_Vtx(u16 x, u16 y, u16 z) {
     REG_GFX_FIFO_VERTEX_16 = x | (y << 0x10);
     REG_GFX_FIFO_VERTEX_16 = z;
 }
+
+inline void G3_Vtx10(const u32 x, const u32 y, const u32 z) {
+    REG_GFX_FIFO_VERTEX_10 = (x & 0x3FF) | ((y & 0x3FF) << 0x0A) | ((z & 0x3FF) << 0x14);
+}
+
+inline void G3_VtxXZ(const u32 x, const u32 z) {
+    REG_GFX_FIFO_VERTEX_XZ = x | (z << 0x10);
+}
+
 inline void G3_End(void) {
     REG_GFX_FIFO_POLYGONS_END = 0;
 }
