@@ -7,8 +7,8 @@ extern "C" {
 
 #include "nitro/types.h"
 
-void GX_SendFifo48B(const void *src, void *dst);
-void GX_SendFifo64B(const void *src, void *dst);
+void GX_SendFifo48B(const void *src, volatile void *dst);
+void GX_SendFifo64B(const void *src, volatile void *dst);
 
 #ifdef __cplusplus
 }

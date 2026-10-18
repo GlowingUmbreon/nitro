@@ -57,6 +57,7 @@ src/gx/gx_load.c:
 
 src/gx/gx_fifo.c:
     .text       start:0x02134ab4 end:0x02134af4
+    complete
 
 src/os/os_arena.c:
     .text       start:0x02135e30 end:0x02136074

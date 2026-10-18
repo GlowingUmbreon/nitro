@@ -64,6 +64,7 @@ src/gx/gx_bank.c:
 
 src/gx/gx_fifo.c:
     .text       start:0x02027ef0 end:0x02027f30
+    complete
 
 src/gx/gx_state.c:
     .text       start:0x02027f30 end:0x02027f90
