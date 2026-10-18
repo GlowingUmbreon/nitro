@@ -68,7 +68,7 @@ GAMES = [
         name="LEGO_GAME_NAME",
         mwcc_version="1.2/base",
         cc_flags=["-d NITRO_DEBUG=1"],
-        sdk_version="0x2027533", # To double check this is the correct version
+        sdk_version="0x2027533", # TODO: double check this is the correct version
     ),
 ]
 DECOMP_ME_COMPILERS = {

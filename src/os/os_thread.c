@@ -2,6 +2,21 @@
 #include "nitro/os.h"
 #include "nitro/os/os_mutex.h"
 
+#ifdef NITRO_DEBUG
+    void _TEMP_PANIC_2(char* file, long line, char* message, ...);
+    #define __LS_OSi_RemoveThreadFromList_0 0x29c
+    #define __LS_OS_SetThreadPriority_0 0x6ed
+    #define __LS_OS_SetThreadPriority_1 0x6ee
+    #define __LS_OS_GetThreadPriority_0 0x724
+    //#ifdef SPOOF_LINE_NUMBERS
+        #define ASSERT_WITH_MESSAGE_2(condition, message, line_number) if (condition) _TEMP_PANIC_2(__FILE__, line_number, message)
+    //#else
+    //    #define ASSERT_WITH_MESSAGE_2(condition, message) if (condition) _TEMP_PANIC_2(__FILE__, __LINE__, message)
+    //#endif
+#else
+    #define ASSERT_WITH_MESSAGE_2(condition, message)
+#endif
+
 typedef struct OS_UnkStruct2 {
     /* 00 */ u16 unk_00;
     /* 02 */ u16 unk_02;
@@ -162,6 +177,7 @@ static void OSi_RemoveThreadFromList(OSThread *param_1) {
         prev = iter;
         iter = iter->nextPrio;
     }
+    ASSERT_WITH_MESSAGE_2(iter == NULL, "OS_GetThreadPriority: bad thread", __LS_OSi_RemoveThreadFromList_0);
     if (prev == NULL) {
         gHighestPriorityThread = param_1->nextPrio;
     } else {
@@ -377,6 +393,8 @@ static BOOL OS_SetThreadPriority(OSThread *thread, u32 prio) {
 
     iter = gHighestPriorityThread;
     prev = NULL;
+    ASSERT_WITH_MESSAGE_2(prio > 0x1f, "invalid priority", __LS_OS_SetThreadPriority_0);
+    ASSERT_WITH_MESSAGE_2(thread == &sIdleThread, "cannot change idle thread priority.", __LS_OS_SetThreadPriority_1);
     irq  = OS_DisableInterrupts();
     while ((iter != NULL) && (iter != thread)) {
         prev = iter;
@@ -400,12 +418,8 @@ static BOOL OS_SetThreadPriority(OSThread *thread, u32 prio) {
     return true;
 }
 
-void _TEMP_PANIC_2(char* file, long line, char* message, ...);
-#define ASSERT_WITH_MESSAGE_2(condition, message) if (condition) _TEMP_PANIC_2(__FILE__, __LINE__, message)
 static u32 OS_GetThreadPriority(OSThread *thread) {
-    #ifdef NITRO_DEBUG
-        ASSERT_WITH_MESSAGE_2(thread == NULL, "OS_GetThreadPriority: bad thread");
-    #endif
+    ASSERT_WITH_MESSAGE_2(thread == NULL, "OS_GetThreadPriority: bad thread", __LS_OS_GetThreadPriority_0);
     return thread->prio;
 }
 

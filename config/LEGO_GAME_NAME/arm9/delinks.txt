@@ -10,4 +10,4 @@ src/_start.c:
     .text       start:0x02000850 end:0x02000b94
 
 src/os/os_thread.c:
-    .text       start:0x020b9d64 end:0x020b9d98
+    .text       start:0x020b9d64 end:0x020ba64c
