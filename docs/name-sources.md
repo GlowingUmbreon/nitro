@@ -726,14 +726,14 @@ This table outlines the source of every symbol/macro name used in this decompila
 | MI_DmaCopy32 | Function | pm4
 | MI_IsDmaBusy | Function | pm4
 ||
-| MI_CpuFill8 | Function | pm4
-| MI_CpuCopy8 | Function | pm4
-| MIi_CpuCopy16 | Function
-| MI_CpuCopy32 | Function
-| MI_CpuFill32 | Function | gtpd
-| MIi_CpuCopyFast | Function | gtactw
+| MI_CpuFill8      | Function | pm4
+| MI_CpuCopy8      | Function | pm4
+| MIi_CpuCopy16    | Function | gtactw
+| MIi_CpuCopy32    | Function | gtactw
+| MI_CpuFill32     | Function | gtpd
+| MIi_CpuCopyFast  | Function | gtactw
 | MIi_CpuClearFast | Function | gtactw
-| MIi_CpuClear32 | Function | gtactw
+| MIi_CpuClear32   | Function | gtactw
 ||
 | MI_Swap | Function
 ||

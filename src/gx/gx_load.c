@@ -31,7 +31,7 @@ inline void GX_LoadVram32(void *src, void *dst, u32 size) {
     if (GX_defaultDma != -1 && size > 48) {
         MI_DmaCopy32(GX_defaultDma, src, dst, size);
     } else {
-        MI_CpuCopy32(src, dst, size);
+        MIi_CpuCopy32(src, dst, size);
     }
 }
 
@@ -59,10 +59,12 @@ void GXS_LoadOAM(GXOamAttr *oam, u32 offset, u32 size) {
     GX_LoadVram32(oam, HW_DB_OAM + offset, size);
 }
 
+// https://decomp.me/scratch/c5fLJ
 void GX_LoadOBJ(void *ptr, u32 offset, u32 size) {
     GX_LoadVram32(ptr, HW_OBJ_VRAM + offset, size);
 }
 
+// https://decomp.me/scratch/es3pz
 void GXS_LoadOBJ(void *ptr, u32 offset, u32 size) {
     GX_LoadVram32(ptr, HW_DB_OBJ_VRAM + offset, size);
 }
@@ -76,7 +78,7 @@ void GXS_LoadBG0Scr(void *ptr, u32 offset, u32 size) {
 }
 
 void GX_LoadBG1Scr(void *ptr, u32 offset, u32 size) {
-    GX_LoadVram16(ptr, G2_GetBG0CharPtr() + offset, size);
+    GX_LoadVram16(ptr, G2_GetBG1ScrPtr() + offset, size);
 }
 
 void GXS_LoadBG1Scr(void *ptr, u32 offset, u32 size) {
@@ -155,15 +157,15 @@ void GX_BeginLoadBGExtPltt(void) {
 void GX_LoadBGExtPltt(void *ptr, u32 offset, u32 size) {
     void *vram = (data_0216a0fc.unk_10 + offset) - data_0216a0fc.unk_0c;
     if (GX_defaultDma != -1) {
-        MI_func_0206d87c(GX_defaultDma, ptr, vram, size, 0, 0);
+        MI_func_0002(GX_defaultDma, ptr, vram, size, 0, 0);
     } else {
-        MI_CpuCopy32(ptr, vram, size);
+        MIi_CpuCopy32(ptr, vram, size);
     }
 }
 
 void GX_EndLoadBGExtPltt(void) {
     if (GX_defaultDma != -1) {
-        MI_func_0206d934(GX_defaultDma);
+        MI_func_0003(GX_defaultDma);
     }
     GX_SetBankForBGExtPltt(data_0216a0fc.unk_14);
     data_0216a0fc.unk_14 = 0;
@@ -188,15 +190,15 @@ void GX_BeginLoadOBJExtPltt(void) {
 void GX_LoadOBJExtPltt(void *ptr, u32 offset, u32 size) {
     void *vram = data_0216a0fc.unk_04 + offset;
     if (GX_defaultDma != -1) {
-        MI_func_0206d87c(GX_defaultDma, ptr, vram, size, 0, 0);
+        MI_func_0002(GX_defaultDma, ptr, vram, size, 0, 0);
     } else {
-        MI_CpuCopy32(ptr, vram, size);
+        MIi_CpuCopy32(ptr, vram, size);
     }
 }
 
 void GX_EndLoadOBJExtPltt(void) {
     if (GX_defaultDma != -1) {
-        MI_func_0206d934(GX_defaultDma);
+        MI_func_0003(GX_defaultDma);
     }
     GX_SetBankForOBJExtPltt(data_0216a0fc.unk_08);
     data_0216a0fc.unk_08 = 0;
@@ -209,15 +211,15 @@ void GXS_BeginLoadBGExtPltt(void) {
 
 void GXS_LoadBGExtPltt(void *ptr, u32 offset, u32 size) {
     if (GX_defaultDma != -1) {
-        MI_func_0206d87c(GX_defaultDma, ptr, ((void *) 0x06898000) + offset, size, 0, 0);
+        MI_func_0002(GX_defaultDma, ptr, ((void *) 0x06898000) + offset, size, 0, 0);
     } else {
-        MI_CpuCopy32(ptr, ((void *) 0x06898000) + offset, size);
+        MIi_CpuCopy32(ptr, ((void *) 0x06898000) + offset, size);
     }
 }
 
 void GXS_EndLoadBGExtPltt(void) {
     if (GX_defaultDma != -1) {
-        MI_func_0206d934(GX_defaultDma);
+        MI_func_0003(GX_defaultDma);
     }
     GX_SetBankForSubBGExtPltt(data_0216a0fc.unk_00);
     data_0216a0fc.unk_00 = 0;
@@ -229,15 +231,15 @@ void GXS_BeginLoadOBJExtPltt(void) {
 
 void GXS_LoadOBJExtPltt(void *ptr, u32 offset, u32 size) {
     if (GX_defaultDma != -1) {
-        MI_func_0206d87c(GX_defaultDma, ptr, ((void *) 0x068a0000) + offset, size, 0, 0);
+        MI_func_0002(GX_defaultDma, ptr, ((void *) 0x068a0000) + offset, size, 0, 0);
     } else {
-        MI_CpuCopy32(ptr, ((void *) 0x068a0000) + offset, size);
+        MIi_CpuCopy32(ptr, ((void *) 0x068a0000) + offset, size);
     }
 }
 
 void GXS_EndLoadOBJExtPltt(void) {
     if (GX_defaultDma != -1) {
-        MI_func_0206d934(GX_defaultDma);
+        MI_func_0003(GX_defaultDma);
     }
     GX_SetBankForSubOBJExtPltt(data_0216a0fc.unk_18);
     data_0216a0fc.unk_18 = 0;

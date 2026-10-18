@@ -267,7 +267,7 @@ void MIi_CpuClear32(u32 value, void *inBuf, u32 size) {
 #endif
 }
 
-void MI_CpuCopy32(const void *inSrc, void *inDst, u32 size) {
+void MIi_CpuCopy32(const void *inSrc, void *inDst, u32 size) {
     u32 *src = inSrc;
     u32 *dst = inDst;
 #ifdef NITRO_NO_ASM

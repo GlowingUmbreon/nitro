@@ -12,15 +12,15 @@ extern "C" {
 void MI_DmaFill32(u32 dma, void *ptr, u8 value, u32 size);
 void MI_DmaCopy16(u32 dma, const void *src, void *dst, u32 size);
 void MI_DmaCopy32(u32 dma, const void *src, void *dst, u32 size);
-void MI_func_0206d87c(u32 dma, void *src, void *dst, u32 size, u32, u32);
-void MI_func_0206d934(u32 dma);
+void MI_func_0002(u32 dma, void *src, void *dst, u32 size, u32, u32);
+void MI_func_0003(u32 dma);
 BOOL MI_IsDmaBusy(u32 dma);
 void MI_WaitDma(u32 dma);
 
 void MI_CpuFill8(void *ptr, u8 value, u32 size);
 void MI_CpuCopy8(const void *src, void *dst, u32 size);
 void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-void MI_CpuCopy32(const void *src, void *dst, u32 size);
+void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 void MI_CpuFill16(u16 value, void *dst, u32 size);
 void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 void MIi_CpuClearFast(u32 value, void *ptr, u32 size);
