@@ -400,7 +400,12 @@ static BOOL OS_SetThreadPriority(OSThread *thread, u32 prio) {
     return true;
 }
 
+void _TEMP_PANIC_2(char* file, long line, char* message, ...);
+#define ASSERT_WITH_MESSAGE_2(condition, message) if (condition) _TEMP_PANIC_2(__FILE__, __LINE__, message)
 static u32 OS_GetThreadPriority(OSThread *thread) {
+    #ifdef NITRO_DEBUG
+        ASSERT_WITH_MESSAGE_2(thread == NULL, "OS_GetThreadPriority: bad thread");
+    #endif
     return thread->prio;
 }
 
@@ -515,22 +520,22 @@ static asm u32 OS_SaveContext(OSThread *thread) {
     #pragma push
     #pragma thumb off
     stmdb sp!, {r0, lr}
-    add r0, r0, 0x48
+    add r0, r0, #0x48
     lda r1, CP_SaveContext
     blx r1
     ldmia sp!, {r0, lr}
-    add r1, r0, 0
+    add r1, r0, #0
     mrs r2, cpsr
-    str r2, [r1], 4
-    mov r0, 0xd3
+    str r2, [r1], #4
+    mov r0, #0xd3
     msr cpsr_c, r0
-    str sp, [r1, 0x40]
+    str sp, [r1, #0x40]
     msr cpsr_c, r2
-    mov r0, 1
+    mov r0, #1
     stmia r1, {r0-r14}
-    add r0, pc, 8
-    str r0, [r1, 0x3c]
-    mov r0, 0
+    add r0, pc, #8
+    str r0, [r1, #0x3c]
+    mov r0, #0
     bx lr
     #pragma pop
 }
@@ -541,20 +546,20 @@ static asm void OS_LoadContext(OSThread *thread) {
     #pragma push
     #pragma thumb off
     stmdb sp!, {r0, lr}
-    add r0, r0, 0x48
+    add r0, r0, #0x48
     lda r1, CPi_RestoreContext
     blx r1
     ldmia sp!, {r0, lr}
     mrs r1, cpsr
-    bic r1, r1, 0x1f
-    orr r1, r1, 0xd3
+    bic r1, r1, #0x1f
+    orr r1, r1, #0xd3
     msr cpsr_c, r1
-    ldr r1, [r0], 4
+    ldr r1, [r0], #4
     msr spsr_fxsc, r1
-    ldr sp, [r0, 0x40]
-    ldr lr, [r0, 0x3c]
+    ldr sp, [r0, #0x40]
+    ldr lr, [r0, #0x3c]
     ldmia r0, {r0-r14}^
     mov r0, r0
-    subs pc, lr, 4
+    subs pc, lr, #4
     #pragma pop
 }// clang-format on
